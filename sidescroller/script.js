@@ -27,6 +27,7 @@ function update(time) {
   const delta = time - lastTime;
 
   updateGround(delta, speedScale);
+  updateDino(delta, speedScale);
   updateSpeedScale(delta);
   updateScore(delta);
 
@@ -49,6 +50,7 @@ function handleStart() {
   score = 0;
 
   setupGround();
+  setupDino();
 
   startScreenEl.classList.add('hide');
   window.requestAnimationFrame(update);
