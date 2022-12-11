@@ -1,13 +1,58 @@
+import { setupGround, updateGround } from './js/ground.js';
+import { setupDino, updateDino } from './js/dino.js';
+
 const WORLD_WIDTH = 100;
 const WORLD_HEIGHT = 30;
+const SPEED_SCALE_INCREASE = 0.00001;
 
 const worldEl = document.querySelector('[data-world]');
+const scoreEl = document.querySelector('[data-score]');
+const startScreenEl = document.querySelector('[data-start-screen]');
 
 setPixelToWorldScale();
 window.addEventListener('resize', setPixelToWorldScale);
+document.addEventListener('keydown', handleStart, { once: true });
 
-function update(time) {}
-window.requestAnimationFrame(update);
+let lastTime;
+let speedScale;
+let score;
+
+function update(time) {
+  if (lastTime == null) {
+    lastTime = time;
+    window.requestAnimationFrame(update);
+    return;
+  }
+
+  const delta = time - lastTime;
+
+  updateGround(delta, speedScale);
+  updateSpeedScale(delta);
+  updateScore(delta);
+
+  lastTime = time;
+  window.requestAnimationFrame(update);
+}
+
+function updateSpeedScale(delta) {
+  speedScale += delta * SPEED_SCALE_INCREASE;
+}
+
+function updateScore(delta) {
+  score += delta * 0.01;
+  scoreEl.textContent = Math.floor(score);
+}
+
+function handleStart() {
+  lastTime = null;
+  speedScale = 1;
+  score = 0;
+
+  setupGround();
+
+  startScreenEl.classList.add('hide');
+  window.requestAnimationFrame(update);
+}
 
 function setPixelToWorldScale() {
   let worldToPixelScale;
