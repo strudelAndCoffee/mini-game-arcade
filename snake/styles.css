@@ -17,6 +17,20 @@ body {
   grid-template-columns: repeat(21, 1fr);
 }
 
+.start-msg {
+  width: 100%;
+  text-align: center;
+  background: none;
+  color: black;
+  position: absolute;
+  z-index: 999;
+  padding-bottom: 15vh;
+}
+
+.hide {
+  display: none;
+}
+
 .snake {
   background-color: hsl(200, 100%, 50%);
   border: 0.25vmin solid black;

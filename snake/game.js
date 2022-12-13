@@ -7,6 +7,7 @@ import {
 } from './js/snake.js';
 import { updateFood, drawFood } from './js/food.js';
 import { outsideGrid } from './js/grid.js';
+import { getGameStart } from './js/input.js';
 
 let lastRenderTime = 0;
 let gameOver = false;
@@ -19,6 +20,9 @@ function main(currentTime) {
     }
     return;
   }
+
+  if (getGameStart())
+    document.querySelector('.start-msg').classList.add('hide');
 
   window.requestAnimationFrame(main);
   const delta = (currentTime - lastRenderTime) / 1000;
