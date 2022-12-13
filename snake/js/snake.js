@@ -30,10 +30,19 @@ export function expandSnake(amount) {
   newSegs += amount;
 }
 
-export function onSnake(position) {
-  return snakeBody.some((seg) => {
+export function onSnake(position, { ignoreHead = false } = {}) {
+  return snakeBody.some((seg, index) => {
+    if (ignoreHead && index === 0) return false;
     return equalPositions(seg, position);
   });
+}
+
+export function getSnakeHead() {
+  return snakeBody[0];
+}
+
+export function snakeIntersection() {
+  return onSnake(snakeBody[0], { ignoreHead: true });
 }
 
 function equalPositions(p1, p2) {
