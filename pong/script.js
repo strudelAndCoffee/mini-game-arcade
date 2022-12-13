@@ -1,7 +1,7 @@
 import Ball from './js/Ball.js';
 import Paddle from './js/Paddle.js';
 
-const POINTS_TO_WIN = 3;
+const POINTS_TO_WIN = 5;
 const ball = new Ball(document.getElementById('ball'));
 const playerPaddle = new Paddle(document.getElementById('player-paddle'));
 const computerPaddle = new Paddle(document.getElementById('computer-paddle'));
@@ -13,7 +13,7 @@ let lastTime;
 function update(time) {
   if (lastTime != null) {
     const delta = time - lastTime;
-    // ball.update(delta, [playerPaddle.rect(), computerPaddle.rect()]);
+    ball.update(delta, [playerPaddle.rect(), computerPaddle.rect()]);
     computerPaddle.update(delta, ball.y);
     const hue = parseFloat(
       getComputedStyle(document.documentElement).getPropertyValue('--hue')
@@ -21,9 +21,7 @@ function update(time) {
 
     document.documentElement.style.setProperty('--hue', hue + delta * 0.008);
 
-    if (isLose()) {
-      handleLose();
-    }
+    if (isLose()) handleLose();
   }
 
   lastTime = time;
@@ -68,15 +66,16 @@ function handleGameOver() {
 
 function startGame() {
   let count = 2;
+
+  document.addEventListener('mousemove', (e) => {
+    playerPaddle.position = (e.y / window.innerHeight) * 100;
+  });
+
   const countDown = setInterval(() => {
     document.getElementById('count-down').innerText = count;
     if (count == 0) {
       clearInterval(countDown);
       document.getElementById('counter').classList.add('hide');
-
-      document.addEventListener('mousemove', (e) => {
-        playerPaddle.position = (e.y / window.innerHeight) * 100;
-      });
       window.requestAnimationFrame(update);
     }
     count--;
