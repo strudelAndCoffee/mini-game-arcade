@@ -14,6 +14,7 @@
 body {
   margin: 0;
   background-color: var(--background);
+  overflow: hidden;
 }
 
 .score {
@@ -63,7 +64,7 @@ body {
   width: 2.5vh;
   height: 2.5vh;
   border-radius: 50%;
-  left: calc(var(--x) * 1vh);
+  left: calc(var(--x) * 1vw);
   top: calc(var(--y) * 1vh);
   transform: translate(-50%);
 }
