@@ -31,7 +31,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: hsl(200, 1%, 51%);
+  background-color: hsl(
+    var(--hue, 200),
+    var(--sat, 1%),
+    calc(var(--light-offset, 0%) + var(--light, 51%))
+  );
   color: white;
   border-radius: 0.25em;
   cursor: pointer;
@@ -40,6 +44,27 @@ body {
 
 .key.large {
   grid-column: span 3;
+}
+
+.key.wrong {
+  --light: 23%;
+}
+
+.key.wrong-location {
+  --hue: 49;
+  --sat: 51%;
+  --light: 47%;
+}
+
+.key.correct {
+  --hue: 115;
+  --sat: 33%;
+  --light: 43%;
+}
+
+.key:hover,
+.key:focus {
+  --light-offset: 10%;
 }
 
 .delete {
