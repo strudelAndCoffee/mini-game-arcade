@@ -27,7 +27,7 @@ export default class Ball {
   reset() {
     this.x = 50;
     this.y = 50;
-    this.direction = { x: 0, y: 0 };
+    this.direction = { x: 0 };
     while (
       Math.abs(this.direction.x) <= 0.2 ||
       Math.abs(this.direction.x) >= 0.9

@@ -1,6 +1,7 @@
 import Ball from './js/Ball.js';
 import Paddle from './js/Paddle.js';
 
+const POINTS_TO_WIN = 3;
 const ball = new Ball(document.getElementById('ball'));
 const playerPaddle = new Paddle(document.getElementById('player-paddle'));
 const computerPaddle = new Paddle(document.getElementById('computer-paddle'));
@@ -14,6 +15,11 @@ function update(time) {
     const delta = time - lastTime;
     // ball.update(delta, [playerPaddle.rect(), computerPaddle.rect()]);
     computerPaddle.update(delta, ball.y);
+    const hue = parseFloat(
+      getComputedStyle(document.documentElement).getPropertyValue('--hue')
+    );
+
+    document.documentElement.style.setProperty('--hue', hue + delta * 0.008);
 
     if (isLose()) {
       handleLose();
@@ -37,10 +43,44 @@ function handleLose() {
 
   ball.reset();
   computerPaddle.reset();
+  if (
+    parseInt(playerScoreEl.textContent) >= POINTS_TO_WIN ||
+    parseInt(computerScoreEl.textContent) >= POINTS_TO_WIN
+  ) {
+    handleGameOver();
+  }
 }
 
-document.addEventListener('mousemove', (e) => {
-  playerPaddle.position = (e.y / window.innerHeight) * 100;
-});
+function handleGameOver() {
+  let result;
+  parseInt(playerScoreEl.textContent) >= POINTS_TO_WIN
+    ? (result = 'You win!!')
+    : (result = 'You lose.');
 
-window.requestAnimationFrame(update);
+  if (confirm(`${result} Play again?`)) {
+    playerScoreEl.textContent = 0;
+    computerScoreEl.textContent = 0;
+    window.location = '/pong';
+  } else {
+    window.location = '/';
+  }
+}
+
+function startGame() {
+  let count = 2;
+  const countDown = setInterval(() => {
+    document.getElementById('count-down').innerText = count;
+    if (count == 0) {
+      clearInterval(countDown);
+      document.getElementById('counter').classList.add('hide');
+
+      document.addEventListener('mousemove', (e) => {
+        playerPaddle.position = (e.y / window.innerHeight) * 100;
+      });
+      window.requestAnimationFrame(update);
+    }
+    count--;
+  }, 1000);
+}
+
+startGame();
