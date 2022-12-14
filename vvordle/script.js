@@ -1,6 +1,7 @@
 import { targetWords, dictionary } from './lib/words.js';
 
 const guessGrid = document.querySelector('[data-guess-grid]');
+const alertContainer = document.querySelector('[data-alert-container]');
 const WORD_LENGTH = 5;
 const offsetFromDate = new Date(2022, 11, 13);
 const msOffset = Date.now() - offsetFromDate;
@@ -78,6 +79,34 @@ function submitGuess() {
 
 function getActiveTiles() {
   return guessGrid.querySelectorAll('[data-state="active"]');
+}
+
+function showAlert(msg, duration = 1000) {
+  const alert = document.createElement('div');
+  alert.textContent = msg;
+  alert.classList.add('alert');
+  alertContainer.prepend(alert);
+
+  if (duration == null) return;
+  setTimeout(() => {
+    alert.classList.add('hide');
+    alert.addEventListener('transitionend', () => {
+      alert.remove();
+    });
+  }, duration);
+}
+
+function shakeTiles(tiles) {
+  tiles.forEach((tile) => {
+    tile.classList.add('shake');
+    tile.addEventListener(
+      'animationend',
+      () => {
+        tile.classList.remove('shake');
+      },
+      { once: true }
+    );
+  });
 }
 
 startInteraction();
