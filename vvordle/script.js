@@ -6,6 +6,7 @@ const alertContainer = document.querySelector('[data-alert-container]');
 
 const WORD_LENGTH = 5;
 const FLIP_FX_DURATION = 500;
+const DANCE_FX_DURATION = 500;
 
 const offsetFromDate = new Date(2022, 11, 13);
 const msOffset = Date.now() - offsetFromDate;
@@ -122,7 +123,7 @@ function flipTile(tile, index, array, guess) {
           'transitionend',
           () => {
             startInteraction();
-            // checkWinLose(guess, array);
+            checkWinLose(guess, array);
           },
           { once: true }
         );
@@ -162,6 +163,30 @@ function shakeTiles(tiles) {
       { once: true }
     );
   });
+}
+
+function danceTiles(tiles) {
+  tiles.forEach((tile, index) => {
+    setTimeout(() => {
+      tile.classList.add('dance');
+      tile.addEventListener(
+        'animationend',
+        () => {
+          tile.classList.remove('dance');
+        },
+        { once: true }
+      );
+    }, (index * DANCE_FX_DURATION) / 5);
+  });
+}
+
+function checkWinLose(guess, tiles) {
+  if (guess === targetWord) {
+    showAlert('You win!', 5000);
+    danceTiles(tiles);
+    stopInteraction();
+    return;
+  }
 }
 
 startInteraction();
