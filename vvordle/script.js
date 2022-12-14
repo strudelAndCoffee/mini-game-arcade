@@ -1,8 +1,12 @@
 import { targetWords, dictionary } from './lib/words.js';
 
 const guessGrid = document.querySelector('[data-guess-grid]');
+const keyboard = document.querySelector('[data-keyboard]');
 const alertContainer = document.querySelector('[data-alert-container]');
+
 const WORD_LENGTH = 5;
+const FLIP_FX_DURATION = 500;
+
 const offsetFromDate = new Date(2022, 11, 13);
 const msOffset = Date.now() - offsetFromDate;
 const dayOffset = msOffset / 1000 / 60 / 60 / 24;
@@ -75,6 +79,57 @@ function submitGuess() {
     shakeTiles(activeTiles);
     return;
   }
+
+  const guess = activeTiles.reduce((word, tile) => {
+    return word + tile.dataset.letter;
+  }, '');
+
+  if (!dictionary.includes(guess)) {
+    showAlert('Not in word list');
+    shakeTiles(activeTiles);
+    return;
+  }
+
+  stopInteraction();
+  activeTiles.forEach((...params) => flipTile(...params, guess));
+}
+
+function flipTile(tile, index, array, guess) {
+  const letter = tile.dataset.letter;
+  const key = keyboard.querySelector(`[data-key="${letter}"i]`);
+
+  setTimeout(() => {
+    tile.classList.add('flip');
+  }, (index * FLIP_FX_DURATION) / 2);
+
+  tile.addEventListener(
+    'transitionend',
+    () => {
+      tile.classList.remove('flip');
+      if (targetWord[index] === letter) {
+        tile.dataset.state = 'correct';
+        key.classList.add('correct');
+      } else if (targetWord.includes(letter)) {
+        tile.dataset.state = 'wrong-location';
+        key.classList.add('wrong-location');
+      } else {
+        tile.dataset.state = 'wrong';
+        key.classList.add('wrong');
+      }
+
+      if (index === array.length - 1) {
+        tile.addEventListener(
+          'transitionend',
+          () => {
+            startInteraction();
+            // checkWinLose(guess, array);
+          },
+          { once: true }
+        );
+      }
+    },
+    { once: true }
+  );
 }
 
 function getActiveTiles() {
