@@ -187,6 +187,12 @@ function checkWinLose(guess, tiles) {
     stopInteraction();
     return;
   }
+
+  const remainingTiles = guessGrid.querySelectorAll(':not([data-letter])');
+  if (remainingTiles.length === 0) {
+    showAlert(`So close! The word was ${targetWord.toUpperCase()}`, null);
+    stopInteraction();
+  }
 }
 
 startInteraction();
