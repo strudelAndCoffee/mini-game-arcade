@@ -93,16 +93,76 @@ body {
 }
 
 .base-1 {
+  height: 50px;
+  width: 10px;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.base-2 {
   height: 10px;
   width: 200px;
   margin-left: 120px;
 }
-.base-2 {
+.base-3 {
   height: 400px;
   width: 10px;
   margin-left: 120px;
 }
-.base- {
+.base-4 {
   height: 10px;
   width: 250px;
+}
+
+.head {
+  width: 70px;
+  height: 70px;
+  border-radius: 100%;
+  border: 10px solid white;
+  position: absolute;
+  top: 50px;
+  right: -30px;
+}
+.body {
+  width: 10px;
+  height: 100px;
+  position: absolute;
+  top: 120px;
+  right: 0;
+}
+.arm-l {
+  width: 100px;
+  height: 10px;
+  position: absolute;
+  top: 150px;
+  right: -100px;
+  rotate: -30deg;
+  transform-origin: left bottom;
+}
+.arm-r {
+  width: 100px;
+  height: 10px;
+  position: absolute;
+  top: 150px;
+  right: 10px;
+  rotate: 30deg;
+  transform-origin: right bottom;
+}
+.leg-l {
+  width: 100px;
+  height: 10px;
+  position: absolute;
+  top: 210px;
+  right: -90px;
+  rotate: 60deg;
+  transform-origin: left bottom;
+}
+.leg-r {
+  width: 100px;
+  height: 10px;
+  position: absolute;
+  top: 210px;
+  right: 0;
+  rotate: -60deg;
+  transform-origin: right bottom;
 }
