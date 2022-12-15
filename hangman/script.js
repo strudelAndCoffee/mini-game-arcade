@@ -4,6 +4,8 @@ const drawingEl = document.querySelector('[data-drawing]');
 const wordEl = document.querySelector('[data-word]');
 const keyboardEl = document.querySelector('[data-keyboard]');
 
+const DANCE_FX_DURATION = 200;
+
 let wordToGuess = words[Math.floor(Math.random() * words.length)].split('');
 let wrongGuesses = 0;
 let letters;
@@ -79,12 +81,24 @@ function handleLose() {
 }
 
 function handleWin() {
-  letters.forEach((letter) => letter.classList.add('won'));
+  letters.forEach((letter, index) => {
+    setTimeout(() => {
+      letter.classList.add('won');
+      letter.classList.add('dance');
+      letter.addEventListener(
+        'animationend',
+        () => {
+          letter.classList.remove('dance');
+        },
+        { once: true }
+      );
+    }, (index * DANCE_FX_DURATION) / letters.length);
+  });
 
   const result = 'You win!';
   setTimeout(() => {
     handleGameOver(result);
-  }, 100);
+  }, letters.length + 500);
 }
 
 function handleGameOver(result) {

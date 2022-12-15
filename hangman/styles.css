@@ -90,6 +90,19 @@ body {
   border-bottom-color: var(--red);
 }
 
+.letter.dance {
+  animation: dance 500ms ease-in-out;
+}
+
+@keyframes dance {
+  50% {
+    transform: translateY(-30%);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
 /* DRAWING */
 
 .drawing-container {
