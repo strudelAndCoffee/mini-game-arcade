@@ -35,17 +35,32 @@ body {
   color: white;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 1vh;
-  padding: 2em;
-  padding-top: 1.2em;
+  padding: 1.2em 2em;
   border-radius: 5%;
   box-shadow: 0 3px 12px 0 rgba(0, 0, 0, 0.7);
   font-size: 1.5em;
 }
 
 .modal select {
+  width: 80%;
   font-size: 0.8em;
   border-radius: 3px;
+}
+
+.btn {
+  margin-top: 0.5em;
+  width: max-content;
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font-size: 0.8em;
+  cursor: pointer;
+}
+
+.btn:focus,
+.btn:hover {
+  border-color: black;
 }
 
 .counter {

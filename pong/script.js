@@ -1,13 +1,15 @@
 import Ball from './js/Ball.js';
 import Paddle from './js/Paddle.js';
 
-const POINTS_TO_WIN = 5;
 const ball = new Ball(document.getElementById('ball'));
 const playerPaddle = new Paddle(document.getElementById('player-paddle'));
 const computerPaddle = new Paddle(document.getElementById('computer-paddle'));
 const playerScoreEl = document.getElementById('player-score');
 const computerScoreEl = document.getElementById('computer-score');
 
+let points_to_win = 5;
+let difficulty = 'easy';
+let time_limit = null;
 let lastTime;
 
 function update(time) {
@@ -42,8 +44,8 @@ function handleLose() {
   ball.reset();
   computerPaddle.reset();
   if (
-    parseInt(playerScoreEl.textContent) >= POINTS_TO_WIN ||
-    parseInt(computerScoreEl.textContent) >= POINTS_TO_WIN
+    parseInt(playerScoreEl.textContent) >= points_to_win ||
+    parseInt(computerScoreEl.textContent) >= points_to_win
   ) {
     handleGameOver();
   }
@@ -51,7 +53,7 @@ function handleLose() {
 
 function handleGameOver() {
   let result;
-  parseInt(playerScoreEl.textContent) >= POINTS_TO_WIN
+  parseInt(playerScoreEl.textContent) >= points_to_win
     ? (result = 'You win!!')
     : (result = 'You lose.');
 
@@ -82,4 +84,24 @@ function startGame() {
   }, 1000);
 }
 
-// startGame();
+function setupGame() {
+  const modalEl = document.getElementById('modal');
+
+  const getFormData = (e) => {
+    e.preventDefault();
+
+    const diffSelectEl = modalEl.querySelector('#difficulty');
+    const scoreSelectEl = modalEl.querySelector('#score');
+    const timeSelectEl = modalEl.querySelector('#time');
+
+    difficulty = diffSelectEl.value;
+    points_to_win = parseInt(scoreSelectEl.value);
+    time_limit = timeSelectEl.value != 0 ? parseInt(timeSelectEl.value) : null;
+
+    // startGame();
+  };
+
+  modalEl.addEventListener('submit', getFormData);
+}
+
+setupGame();
