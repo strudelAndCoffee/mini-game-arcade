@@ -1,25 +1,29 @@
 import { words } from './lib/words.js';
 
-const wordToGuess = words[Math.floor(Math.random() * words.length)].split('');
-
 const drawingEl = document.querySelector('[data-drawing]');
 const wordEl = document.querySelector('[data-word]');
 const keyboardEl = document.querySelector('[data-keyboard]');
 
+let wordToGuess = words[Math.floor(Math.random() * words.length)].split('');
 let wrongGuesses = 0;
+let letters;
 
 function createWordToGuess() {
   for (let i = 0; i < wordToGuess.length; i++) {
     let letterEl = document.createElement('span');
     letterEl.classList.add('letter');
+    letterEl.dataset.letter = wordToGuess[i];
+    letterEl.dataset.state = 'hidden';
 
     wordEl.append(letterEl);
   }
+  letters = wordEl.querySelectorAll('[data-letter]');
 }
 
 function handleClick(e) {
   if (e.target.matches('[data-key]')) {
-    handleGuessLetter(e.target.dataset.key);
+    const key = e.target.dataset.key;
+    handleGuessLetter(key);
   }
 }
 
@@ -31,31 +35,62 @@ function handleKeydown(e) {
 function handleGuessLetter(key) {
   if (!key.match(/^[a-z]$/)) return;
 
-  wordToGuess.includes(key) ? handleCorrectLetter(key) : handleWrongLetter(key);
+  const keyEl = keyboardEl.querySelector(`[data-key="${key}"]`);
+  if (keyEl.disabled) return;
+
+  keyEl.disabled = true;
+  wordToGuess.includes(key) ? handleCorrectLetter(key) : handleWrongLetter();
 }
 
 function handleCorrectLetter(key) {
-  console.log(key);
+  letters.forEach((letter) => {
+    if (letter.dataset.letter === key) {
+      letter.textContent = key.toUpperCase();
+      letter.dataset.state = 'shown';
+      wordToGuess = wordToGuess.filter((val) => {
+        return val != key;
+      });
+    }
+  });
+
+  if (wordToGuess.length === 0) handleWin();
 }
 
-function handleWrongLetter(key) {
-  if (wrongGuesses >= 6) {
-    handleLose();
-    return;
-  }
-
-  const keyEl = keyboardEl.querySelector(`[data-key="${key}"]`);
-  if (keyEl.disabled) return;
-  keyEl.disabled = true;
+function handleWrongLetter() {
   wrongGuesses++;
+  if (wrongGuesses === 6) handleLose();
 
   const bodyPiece = drawingEl.querySelector(`[data-piece="${wrongGuesses}"]`);
   bodyPiece.classList.remove('hidden');
 }
 
 function handleLose() {
-  document.removeEventListener('click', handleClick);
-  document.removeEventListener('keydown', handleKeydown);
+  letters.forEach((letter) => {
+    if (letter.dataset.state == 'hidden') {
+      letter.textContent = letter.dataset.letter.toUpperCase();
+      letter.classList.add('lost');
+    }
+  });
+
+  const result = 'You are out of guesses.';
+  setTimeout(() => {
+    handleGameOver(result);
+  }, 100);
+}
+
+function handleWin() {
+  letters.forEach((letter) => letter.classList.add('won'));
+
+  const result = 'You win!';
+  setTimeout(() => {
+    handleGameOver(result);
+  }, 100);
+}
+
+function handleGameOver(result) {
+  confirm(`${result} Would you like to play again?`)
+    ? (window.location = '/hangman')
+    : (window.location = '/');
 }
 
 createWordToGuess();

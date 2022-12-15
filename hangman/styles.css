@@ -5,6 +5,11 @@
   font-family: Arial;
 }
 
+:root {
+  --green: hsl(115, 33%, 43%);
+  --red: hsl(1, 81%, 54%);
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -45,6 +50,7 @@ body {
 
 .key:disabled {
   --light: 23%;
+  color: lightgray;
 }
 
 .key:hover:not(:disabled),
@@ -72,6 +78,16 @@ body {
   border-bottom: 0.1em solid white;
   text-align: center;
   color: white;
+}
+
+.letter.won {
+  color: var(--green);
+  border-bottom-color: var(--green);
+}
+
+.letter.lost {
+  color: var(--red);
+  border-bottom-color: var(--red);
 }
 
 /* DRAWING */
