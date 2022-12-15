@@ -76,6 +76,33 @@ body {
 
 /* DRAWING */
 
-.drawing {
+.drawing-container {
   flex-grow: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.drawing {
+  position: relative;
+}
+
+.piece {
+  background: white;
+}
+
+.base-1 {
+  height: 10px;
+  width: 200px;
+  margin-left: 120px;
+}
+.base-2 {
+  height: 400px;
+  width: 10px;
+  margin-left: 120px;
+}
+.base- {
+  height: 10px;
+  width: 250px;
 }
