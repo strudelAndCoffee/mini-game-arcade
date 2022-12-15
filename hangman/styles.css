@@ -67,11 +67,14 @@ body {
   font-family: monospace;
 }
 
-.letter {
+.letter-container {
   width: 3.5vw;
   border-bottom: 0.1em solid white;
-  color: white;
   text-align: center;
+}
+
+.letter {
+  color: white;
 }
 
 /* DRAWING */
@@ -165,4 +168,8 @@ body {
   right: 0;
   rotate: -60deg;
   transform-origin: right bottom;
+}
+
+.hidden {
+  visibility: hidden;
 }
