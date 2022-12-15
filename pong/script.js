@@ -82,4 +82,4 @@ function startGame() {
   }, 1000);
 }
 
-startGame();
+// startGame();

@@ -11,7 +11,35 @@
 </head>
 
 <body>
-  <div id="counter" class="counter">Game starting in <br><span id="count-down">3</span></div>
+  <div class="modal-container">
+    <form id="modal" class="modal">
+      <label for="difficulty">Difficulty</label>
+      <select id="difficulty" type="select">
+        <option value="easy">Easy</option>
+        <option value="med">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+      <label for="score">Play to (points)</label>
+      <select id="score" type="select">
+        <option value="3">3</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+        <option value="15">15</option>
+        <option value="25">25</option>
+        <option value="0">no limit</option>
+      </select>
+      <label for="time">Time limit (minutes)</label>
+      <select id="time" type="select">
+        <option value="0">none</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="5">5</option>
+        <option value="10">10</option>
+      </select>
+    </form>
+  </div>
+  <div id="counter" class="counter hide">Game starting in <br><span id="count-down">3</span></div>
   <div class='score'>
     <div id="player-score">0</div>
     <div id="computer-score">0</div>
