@@ -17,8 +17,19 @@ function createWordToGuess() {
   }
 }
 
+function handleClick(e) {
+  if (e.target.matches('[data-key]')) {
+    handleGuessLetter(e.target.dataset.key);
+  }
+}
+
+function handleKeydown(e) {
+  const key = e.key.toLowerCase();
+  handleGuessLetter(key);
+}
+
 function handleGuessLetter(key) {
-  if (!key.match(/^[a-zA-Z]$/)) return;
+  if (!key.match(/^[a-z]$/)) return;
 
   wordToGuess.includes(key) ? handleCorrectLetter(key) : handleWrongLetter(key);
 }
@@ -28,20 +39,26 @@ function handleCorrectLetter(key) {
 }
 
 function handleWrongLetter(key) {
-  const bodyPiece = drawingEl.querySelector(
-    `[data-piece="${wrongGuesses + 1}"]`
-  );
-  bodyPiece.classList.remove('hidden');
+  if (wrongGuesses >= 6) {
+    handleLose();
+    return;
+  }
+
+  const keyEl = keyboardEl.querySelector(`[data-key="${key}"]`);
+  if (keyEl.disabled) return;
+  keyEl.disabled = true;
   wrongGuesses++;
+
+  const bodyPiece = drawingEl.querySelector(`[data-piece="${wrongGuesses}"]`);
+  bodyPiece.classList.remove('hidden');
+}
+
+function handleLose() {
+  document.removeEventListener('click', handleClick);
+  document.removeEventListener('keydown', handleKeydown);
 }
 
 createWordToGuess();
 console.log(wordToGuess);
-document.addEventListener('click', (e) => {
-  if (e.target.matches('[data-key]')) {
-    handleGuessLetter(e.target.dataset.key);
-  }
-});
-document.addEventListener('keydown', (e) => {
-  handleGuessLetter(e.key);
-});
+document.addEventListener('click', handleClick);
+document.addEventListener('keydown', handleKeydown);
