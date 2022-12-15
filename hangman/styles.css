@@ -67,13 +67,10 @@ body {
   font-family: monospace;
 }
 
-.letter-container {
+.letter {
   width: 3.5vw;
   border-bottom: 0.1em solid white;
   text-align: center;
-}
-
-.letter {
   color: white;
 }
 
