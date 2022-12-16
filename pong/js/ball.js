@@ -1,5 +1,5 @@
 const INITIAL_VELOCITY = 0.025;
-const VELOCITY_INCREASE = 0.000005;
+let velocity_increase = 0.000005;
 
 export default class Ball {
   constructor(ballEl) {
@@ -41,7 +41,7 @@ export default class Ball {
   update(delta, paddleRects) {
     this.x += this.direction.x * this.velocity * delta;
     this.y += this.direction.y * this.velocity * delta;
-    this.velocity += VELOCITY_INCREASE * delta;
+    this.velocity += velocity_increase * delta;
     const rect = this.rect();
 
     if (rect.bottom >= window.innerHeight || rect.top <= 0) {
@@ -50,6 +50,22 @@ export default class Ball {
 
     if (paddleRects.some((r) => isCollision(r, rect))) {
       this.direction.x *= -1;
+    }
+  }
+
+  setVelIncr(level) {
+    switch (level) {
+      case 'easy':
+        velocity_increase = 0.000005;
+        break;
+      case 'med':
+        velocity_increase = 0.00001;
+        break;
+      case 'hard':
+        velocity_increase = 0.00002;
+        break;
+      default:
+        break;
     }
   }
 }

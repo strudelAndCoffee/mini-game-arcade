@@ -1,13 +1,13 @@
 import Ball from './js/Ball.js';
 import Paddle from './js/Paddle.js';
 
-const POINTS_TO_WIN = 5;
 const ball = new Ball(document.getElementById('ball'));
 const playerPaddle = new Paddle(document.getElementById('player-paddle'));
 const computerPaddle = new Paddle(document.getElementById('computer-paddle'));
 const playerScoreEl = document.getElementById('player-score');
 const computerScoreEl = document.getElementById('computer-score');
 
+let points_to_win = 5;
 let lastTime;
 
 function update(time) {
@@ -42,8 +42,8 @@ function handleLose() {
   ball.reset();
   computerPaddle.reset();
   if (
-    parseInt(playerScoreEl.textContent) >= POINTS_TO_WIN ||
-    parseInt(computerScoreEl.textContent) >= POINTS_TO_WIN
+    parseInt(playerScoreEl.textContent) >= points_to_win ||
+    parseInt(computerScoreEl.textContent) >= points_to_win
   ) {
     handleGameOver();
   }
@@ -51,7 +51,7 @@ function handleLose() {
 
 function handleGameOver() {
   let result;
-  parseInt(playerScoreEl.textContent) >= POINTS_TO_WIN
+  parseInt(playerScoreEl.textContent) >= points_to_win
     ? (result = 'You win!!')
     : (result = 'You lose.');
 
@@ -65,21 +65,32 @@ function handleGameOver() {
 }
 
 function startGame() {
-  let count = 2;
-
   document.addEventListener('mousemove', (e) => {
     playerPaddle.position = (e.y / window.innerHeight) * 100;
   });
-
-  const countDown = setInterval(() => {
-    document.getElementById('count-down').innerText = count;
-    if (count == 0) {
-      clearInterval(countDown);
-      document.getElementById('counter').classList.add('hide');
-      window.requestAnimationFrame(update);
-    }
-    count--;
-  }, 1000);
+  window.requestAnimationFrame(update);
 }
 
-startGame();
+function setupGame() {
+  const modalEl = document.getElementById('modal');
+
+  const getFormData = (e) => {
+    e.preventDefault();
+
+    const diffSelectEl = modalEl.querySelector('#difficulty');
+    const scoreSelectEl = modalEl.querySelector('#score');
+
+    ball.setVelIncr(diffSelectEl.value);
+    computerPaddle.setSpeed(diffSelectEl.value);
+    points_to_win = parseInt(scoreSelectEl.value);
+
+    modalEl.removeEventListener('submit', getFormData);
+    modalEl.classList.add('hide');
+
+    startGame();
+  };
+
+  modalEl.addEventListener('submit', getFormData);
+}
+
+setupGame();
