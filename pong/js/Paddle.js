@@ -1,4 +1,4 @@
-const SPEED = 0.02;
+let speed = 0.012;
 
 export default class Paddle {
   constructor(paddleEl) {
@@ -24,6 +24,22 @@ export default class Paddle {
   }
 
   update(delta, ballHeight) {
-    this.position += SPEED * delta * (ballHeight - this.position);
+    this.position += speed * delta * (ballHeight - this.position);
+  }
+
+  setSpeed(level) {
+    switch (level) {
+      case 'easy':
+        speed = 0.012;
+        break;
+      case 'med':
+        speed = 0.018;
+        break;
+      case 'hard':
+        speed = 0.022;
+        break;
+      default:
+        break;
+    }
   }
 }

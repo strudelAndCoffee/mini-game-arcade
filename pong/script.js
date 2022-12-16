@@ -8,8 +8,6 @@ const playerScoreEl = document.getElementById('player-score');
 const computerScoreEl = document.getElementById('computer-score');
 
 let points_to_win = 5;
-let difficulty = 'easy';
-let time_limit = null;
 let lastTime;
 
 function update(time) {
@@ -67,21 +65,10 @@ function handleGameOver() {
 }
 
 function startGame() {
-  let count = 2;
-
   document.addEventListener('mousemove', (e) => {
     playerPaddle.position = (e.y / window.innerHeight) * 100;
   });
-
-  const countDown = setInterval(() => {
-    document.getElementById('count-down').innerText = count;
-    if (count == 0) {
-      clearInterval(countDown);
-      document.getElementById('counter').classList.add('hide');
-      window.requestAnimationFrame(update);
-    }
-    count--;
-  }, 1000);
+  window.requestAnimationFrame(update);
 }
 
 function setupGame() {
@@ -92,13 +79,15 @@ function setupGame() {
 
     const diffSelectEl = modalEl.querySelector('#difficulty');
     const scoreSelectEl = modalEl.querySelector('#score');
-    const timeSelectEl = modalEl.querySelector('#time');
 
-    difficulty = diffSelectEl.value;
+    ball.setVelIncr(diffSelectEl.value);
+    computerPaddle.setSpeed(diffSelectEl.value);
     points_to_win = parseInt(scoreSelectEl.value);
-    time_limit = timeSelectEl.value != 0 ? parseInt(timeSelectEl.value) : null;
 
-    // startGame();
+    modalEl.removeEventListener('submit', getFormData);
+    modalEl.classList.add('hide');
+
+    startGame();
   };
 
   modalEl.addEventListener('submit', getFormData);
