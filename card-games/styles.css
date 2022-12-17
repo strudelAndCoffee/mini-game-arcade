@@ -2,17 +2,24 @@
 *::before,
 *::after {
   box-sizing: border-box;
+  cursor: pointer;
 }
 
 body {
   margin: none;
+  height: 100%;
   display: grid;
   grid-template-columns: repeat(2, 4rem);
   grid-template-rows: 7rem 2rem 7rem;
   gap: 0.5rem;
-  cursor: pointer;
   justify-content: center;
   padding-top: 1rem;
+}
+
+.deck,
+.text,
+.card {
+  user-select: none;
 }
 
 .deck {
@@ -25,7 +32,6 @@ body {
   border: 1px solid black;
   border-radius: 0.5rem;
   color: white;
-  user-select: none;
 }
 
 .computer-deck {

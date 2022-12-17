@@ -32,6 +32,14 @@ export default class Deck {
       this.cards[i] = oldVal;
     }
   }
+
+  pop() {
+    return this.cards.shift();
+  }
+
+  push(card) {
+    this.cards.push(card);
+  }
 }
 
 class Card {
