@@ -90,7 +90,7 @@ function setupGame() {
     startGame();
   };
 
-  modalEl.addEventListener('submit', getFormData);
+  modalEl.addEventListener('submit', getFormData, { once: true });
 }
 
 setupGame();
