@@ -6,7 +6,7 @@ This repository is a work in progress, but I plan to deploy it to GitHub pages o
 
 ## Code Source Cited
 
-I do not own the code for Pong, Snake, Chrome Dino Game Clone, Wordle Clone, Tic Tac Toe, nor any .json file or .png images used to recreate these games.
+I am not the original author of the code for Pong, Snake, Chrome Dino Game Clone, Wordle Clone, Tic Tac Toe, or War. I do not claim ownership of any .json file or .png image used to recreate these games.
 
 All original code for these games are openly available for use, copy, and reference by [Web Dev Simplified](https://github.com/WebDevSimplified), and all files are freely offered as per the tutorial videos on the Web Dev Simplified [YouTube](https://www.youtube.com/@WebDevSimplified) channel.
 
@@ -25,3 +25,5 @@ The code for Hangman was based on a tutorial for a TypeScript/React version of t
 [React Hangman](https://github.com/WebDevSimplified/react-hangman)
 
 [JavaScript Tic Tac Toe](https://github.com/WebDevSimplified/JavaScript-Tic-Tac-Toe)
+
+[War Card Game](https://github.com/WebDevSimplified/War-Card-Game)
