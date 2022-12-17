@@ -137,7 +137,16 @@ body {
   cursor: pointer;
 }
 
-.restart-btn:hover {
+.quit-btn {
+  font-size: 2rem;
+  background-color: white;
+  border: 1px solid black;
+  padding: 0.25em 0.5em;
+  cursor: pointer;
+}
+
+.restart-btn:hover,
+.quit-btn:hover {
   background-color: black;
   color: white;
   border-color: white;

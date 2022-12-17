@@ -16,6 +16,7 @@ const cells = document.querySelectorAll('[data-cell]');
 const winningMsgEl = document.getElementById('winningMsg');
 const winningMsgTextEl = document.querySelector('[data-winning-msg-text]');
 const restartBtn = document.getElementById('restartBtn');
+const quitBtn = document.getElementById('quitBtn');
 
 let circleTurn;
 
@@ -77,3 +78,4 @@ function isDraw() {
 
 startGame();
 restartBtn.addEventListener('click', startGame);
+quitBtn.addEventListener('click', () => (window.location = '/'));
