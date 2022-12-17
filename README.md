@@ -10,7 +10,7 @@ I do not own the code for Pong, Snake, Chrome Dino Game Clone, Wordle Clone, Tic
 
 All original code for these games are openly available for use, copy, and reference by [Web Dev Simplified](https://github.com/WebDevSimplified), and all files are freely offered as per the tutorial videos on the Web Dev Simplified [YouTube](https://www.youtube.com/@WebDevSimplified) channel.
 
-The code for Hangman was based on a tutorial for a TypeScript/React version of the game by Web Dev Simplified, and borrows snippets from the Wordle Clone repository.
+The code for Hangman was based on a tutorial for a TypeScript/React version of the game by Web Dev Simplified, and borrows snippets from the Wordle Clone repository. You can find my version the tutorial code [here](https://github.com/strudelAndCoffee/react-ts-guess-the-word).
 
 ### _Links to the cited repositories:_
 
