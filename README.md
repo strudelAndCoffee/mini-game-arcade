@@ -6,7 +6,7 @@ This repository is a work in progress, but I plan to deploy it to GitHub pages o
 
 ## Code Source Cited
 
-I do not own the code for Pong, Snake, Chrome Dino Game Clone, Wordle Clone, Tic Tac, nor any .json file or .png images used to recreate these games.
+I do not own the code for Pong, Snake, Chrome Dino Game Clone, Wordle Clone, Tic Tac Toe, nor any .json file or .png images used to recreate these games.
 
 All original code for these games are openly available for use, copy, and reference by [Web Dev Simplified](https://github.com/WebDevSimplified), and all files are freely offered as per the tutorial videos on the Web Dev Simplified [YouTube](https://www.youtube.com/@WebDevSimplified) channel.
 
