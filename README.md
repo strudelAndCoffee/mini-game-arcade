@@ -6,11 +6,11 @@ This repository is a work in progress, but I plan to deploy it to GitHub pages o
 
 ## Code Source Cited
 
-I am not the original author of the code for the games of Pong, Snake, Dino Game Clone, Wordle Clone, Tic Tac Toe, or War.
+I am not the original author of the code for the games of Pong, Snake, Dino Game Clone, Wordle Clone, Tic Tac Toe, War, or 2048.
 
 All original code for these games are openly available for use, copy, and reference by [Web Dev Simplified](https://github.com/WebDevSimplified), and all files and images are freely offered as per the tutorial videos on the Web Dev Simplified [YouTube](https://www.youtube.com/@WebDevSimplified) channel.
 
-The code for Hangman was based on a tutorial for a TypeScript/React version of the game by Web Dev Simplified, and borrows snippets from the Wordle Clone repository. You can find my version the tutorial code [here](https://github.com/strudelAndCoffee/react-ts-guess-the-word).
+The code for Hangman was based on a tutorial for a TypeScript/React version of the game by Web Dev Simplified, and borrows snippets from the Wordle Clone repository. You can find my version of the tutorial code [here](https://github.com/strudelAndCoffee/react-ts-guess-the-word).
 
 ### _Links to the cited repositories:_
 
@@ -27,3 +27,5 @@ The code for Hangman was based on a tutorial for a TypeScript/React version of t
 [JavaScript Tic Tac Toe](https://github.com/WebDevSimplified/JavaScript-Tic-Tac-Toe)
 
 [War Card Game](https://github.com/WebDevSimplified/War-Card-Game)
+
+[JS 2048](https://github.com/WebDevSimplified/js-2048)
