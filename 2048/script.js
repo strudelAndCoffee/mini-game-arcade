@@ -51,6 +51,14 @@ async function handleInput(e) {
   const newTile = new Tile(gameBoard);
   grid.randomEmptyCell().tile = newTile;
 
+  if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
+    newTile.waitForTransition(true).then(() => {
+      const choice = confirm('Game Over. Would you like to play again?');
+      choice ? (window.location = '/2048') : (window.location = '/');
+    });
+    return;
+  }
+
   setupInput();
 }
 
