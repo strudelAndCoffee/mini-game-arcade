@@ -58,7 +58,7 @@ function handleGameOver() {
   if (confirm(`${result} Play again?`)) {
     playerScoreEl.textContent = 0;
     computerScoreEl.textContent = 0;
-    window.location = '/pong';
+    window.location = '/games/pong';
   } else {
     window.location = '/';
   }

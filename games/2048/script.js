@@ -54,7 +54,7 @@ async function handleInput(e) {
   if (!canMoveUp() && !canMoveDown() && !canMoveLeft() && !canMoveRight()) {
     newTile.waitForTransition(true).then(() => {
       const choice = confirm('Game Over. Would you like to play again?');
-      choice ? (window.location = '/2048') : (window.location = '/');
+      choice ? (window.location = '/games/2048') : (window.location = '/');
     });
     return;
   }

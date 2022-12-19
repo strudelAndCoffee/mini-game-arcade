@@ -103,7 +103,7 @@ function handleWin() {
 
 function handleGameOver(result) {
   confirm(`${result} Would you like to play again?`)
-    ? (window.location = '/hangman')
+    ? (window.location = '/games/hangman')
     : (window.location = '/');
 }
 

@@ -90,7 +90,7 @@ function isRoundWinner(card1, card2) {
 }
 
 function isGameOver(deck) {
-  return deck.numberOfCards === 0;
+  return deck.numberOfCards <= 0;
 }
 
 document.addEventListener('click', () => {
