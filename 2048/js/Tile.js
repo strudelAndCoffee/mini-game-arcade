@@ -11,6 +11,10 @@ export default class Tile {
     this.value = value;
   }
 
+  get value() {
+    return this.#value;
+  }
+
   set value(v) {
     this.#value = v;
     this.#tileElement.textContent = v;
@@ -31,5 +35,17 @@ export default class Tile {
   set y(val) {
     this.#y = val;
     this.#tileElement.style.setProperty('--y', val);
+  }
+
+  remove() {
+    this.#tileElement.remove();
+  }
+
+  waitForTransition() {
+    return new Promise((resolve) => {
+      this.#tileElement.addEventListener('transitionend', resolve, {
+        once: true,
+      });
+    });
   }
 }
