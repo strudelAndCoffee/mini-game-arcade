@@ -1,3 +1,5 @@
+import Ghost from './js/Ghost.js';
+
 // Grid layout copied, with permission, directly from https://github.com/kubowania/pac-man/blob/master/app.js
 // Legend
 // 0 - pac person
@@ -108,7 +110,7 @@ function nextToExit(mod) {
 function pacDotEaten() {
   if (squares[ppCurrentIndex].classList.contains('pac-dot')) {
     score++;
-    scoreEl.innerHTML = score;
+    scoreEl.innerText = score;
     squares[ppCurrentIndex].classList.remove('pac-dot');
   }
 }
