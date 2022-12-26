@@ -1,0 +1,62 @@
+body {
+  background-color: #111;
+  color: white;
+}
+
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  width: 560px;
+  height: 560px;
+  border: 1px solid white;
+  background-color: #111;
+}
+
+.grid div {
+  width: 20px;
+  height: 20px;
+}
+
+.pac-dot {
+  background-color: green;
+  border: 5px solid #111;
+  box-sizing: border-box;
+}
+
+.wall {
+  background-color: blue;
+}
+
+.power-pellet {
+  background-color: purple;
+  border-radius: 10px;
+}
+
+.pac-person {
+  background-color: yellow;
+  border-radius: 10px;
+}
+
+/* Ghosts */
+
+.blinky {
+  background-color: red;
+  border: 0px;
+}
+.pinky {
+  background-color: pink;
+  border: 0px;
+}
+.inky {
+  background-color: cyan;
+  border: 0px;
+}
+.clyde {
+  background-color: orange;
+  border: 0px;
+}
+
+.scared {
+  background-color: aquamarine;
+  border: 0px;
+}
