@@ -42,6 +42,7 @@ const layout = [
 ];
 
 const WIDTH = 28;
+const DIRECTIONS = [-1, 1, WIDTH, -WIDTH];
 const SCARED_GHOST_TIME = 10000;
 
 const grid = document.querySelector('.grid');
@@ -57,6 +58,7 @@ const ghosts = [
 let score = 0;
 let ppCurrentIndex = 490;
 
+// GAME SETUP
 function startGame() {
   createBoard();
   drawGhosts();
@@ -78,6 +80,78 @@ function createBoard() {
   }
 }
 
+function drawGhosts() {
+  ghosts.forEach((ghost) => {
+    squares[ghost.currentIndex].classList.add(ghost.className);
+    squares[ghost.currentIndex].classList.add('ghost');
+  });
+  ghosts.forEach(
+    (ghost) => (ghost.timerId = setInterval(handleGhostMove, ghost.speed))
+  );
+}
+
+// GHOST LOGIC
+function handleGhostMove() {
+  let dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
+
+  if (notBlocked(ghost.currentIndex + dir, true)) {
+    squares[ghost.currentIndex].classList.remove(
+      ghost.className,
+      'ghost',
+      'scared'
+    );
+
+    if (isOptimumDir(dir, ghost)) {
+      ghost.currentIndex += dir;
+      squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+    } else {
+      squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+      dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
+    }
+
+    squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
+  } else dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
+
+  if (ghost.isScared) squares[ghost.currentIndex].classList.add('scared');
+  if (ghost.isScared && checkSquareFor('pac-person', ghost.currentIndex)) {
+    squares[ghost.currentIndex].classList.remove(
+      ghost.className,
+      'ghost',
+      'scared'
+    );
+    ghost.currentIndex = ghost.startIndex;
+    score += 100;
+    squares[ghost.currentIndex].classList.add(ghost.classList, 'ghost');
+  }
+  if (checkSquareFor('pac-man', ghost.currentIndex))
+    clearInterval(ghost.timerId);
+
+  checkGameOver();
+}
+
+function isOptimumDir(dir, ghost) {
+  const getCoordinates = (index) => {
+    return [index % WIDTH, Math.floor(index / WIDTH)];
+  };
+  const [ghostX, ghostY] = getCoordinates(ghost.currentIndex);
+  const [ppX, ppY] = getCoordinates(ppCurrentIndex);
+  const [ghostNewX, ghostNewY] = getCoordinates(ghost.currentIndex + dir);
+
+  const isCloserByAxis = (xAxis) => {
+    let ghostCurrent = xAxis ? ghostX : ghostY;
+    let ghostNew = xAxis ? ghostNewX : ghostNewY;
+    let ppCurrent = xAxis ? ppX : ppY;
+
+    if (ghostNew - ppCurrent > ghostCurrent - ppCurrent) {
+      return true;
+    } else return false;
+  };
+
+  if (isCloserByAxis(true) || isCloserByAxis(false)) return true;
+  else return false;
+}
+
+// PLAYER MOVEMENT
 function move(e) {
   squares[ppCurrentIndex].classList.remove('pac-person');
   switch (e.keyCode) {
@@ -118,6 +192,28 @@ function move(e) {
   checkWin();
 }
 
+function pacDotEaten() {
+  if (squares[ppCurrentIndex].classList.contains('pac-dot')) {
+    score++;
+    scoreEl.innerText = score;
+    squares[ppCurrentIndex].classList.remove('pac-dot');
+  }
+}
+
+function powerPelletEaten() {
+  if (checkSquareFor('power-pellet', ppCurrentIndex)) {
+    score += 10;
+    ghosts.forEach((ghost) => (ghost.isScared = true));
+    setTimeout(unScareGhosts, SCARED_GHOST_TIME);
+    squares[ppCurrentIndex].classList.remove('power-pellet');
+  }
+}
+
+function unScareGhosts() {
+  ghosts.forEach((ghost) => (ghost.isScared = false));
+}
+
+// SQUARE CHECKS
 function checkSquareFor(type, index) {
   return squares[index].classList.contains(type);
 }
@@ -140,68 +236,7 @@ function nextToExit(mod) {
   if (ppCurrentIndex + mod === 392) ppCurrentIndex = 364;
 }
 
-function pacDotEaten() {
-  if (squares[ppCurrentIndex].classList.contains('pac-dot')) {
-    score++;
-    scoreEl.innerText = score;
-    squares[ppCurrentIndex].classList.remove('pac-dot');
-  }
-}
-
-function drawGhosts() {
-  ghosts.forEach((ghost) => {
-    squares[ghost.currentIndex].classList.add(ghost.className);
-    squares[ghost.currentIndex].classList.add('ghost');
-  });
-  ghosts.forEach((ghost) => moveGhost(ghost));
-}
-
-function moveGhost(ghost) {
-  const directions = [-1, 1, WIDTH, -WIDTH];
-  let dir = directions[Math.floor(Math.random() * directions.length)];
-
-  const handleGhostMove = () => {
-    if (notBlocked(ghost.currentIndex + dir, true)) {
-      squares[ghost.currentIndex].classList.remove(
-        ghost.className,
-        'ghost',
-        'scared'
-      );
-      ghost.currentIndex += dir;
-      squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
-    } else dir = directions[Math.floor(Math.random() * directions.length)];
-
-    if (ghost.isScared) squares[ghost.currentIndex].classList.add('scared');
-    if (ghost.isScared && checkSquareFor('pac-person', ghost.currentIndex)) {
-      squares[ghost.currentIndex].classList.remove(
-        ghost.className,
-        'ghost',
-        'scared'
-      );
-      ghost.currentIndex = ghost.startIndex;
-      score += 100;
-      squares[ghost.currentIndex].classList.add(ghost.classList, 'ghost');
-    }
-
-    checkGameOver();
-  };
-
-  ghost.timerId = setInterval(handleGhostMove, ghost.speed);
-}
-
-function powerPelletEaten() {
-  if (checkSquareFor('power-pellet', ppCurrentIndex)) {
-    score += 10;
-    ghosts.forEach((ghost) => (ghost.isScared = true));
-    setTimeout(unScareGhosts, SCARED_GHOST_TIME);
-    squares[ppCurrentIndex].classList.remove('power-pellet');
-  }
-}
-
-function unScareGhosts() {
-  ghosts.forEach((ghost) => (ghost.isScared = false));
-}
-
+// END GAME
 function checkGameOver() {
   if (
     checkSquareFor('ghost', ppCurrentIndex) &&
