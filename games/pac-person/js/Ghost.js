@@ -5,5 +5,6 @@ export default class Ghost {
     this.speed = speed;
     this.currentIndex = startIndex;
     this.timerId = NaN;
+    this.isScared = false;
   }
 }

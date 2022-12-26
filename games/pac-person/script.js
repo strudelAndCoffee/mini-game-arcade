@@ -42,10 +42,11 @@ const layout = [
 ];
 
 const WIDTH = 28;
+const SCARED_GHOST_TIME = 10000;
+
 const grid = document.querySelector('.grid');
 const scoreEl = document.getElementById('score');
 const squares = [];
-
 const ghosts = [
   new Ghost('blinky', 348, 250),
   new Ghost('pinky', 376, 400),
@@ -81,21 +82,21 @@ function move(e) {
   squares[ppCurrentIndex].classList.remove('pac-person');
   switch (e.keyCode) {
     case 37:
-      if (ppCurrentIndex % WIDTH !== 0 && notBlocked(-1, ppCurrentIndex, false))
+      if (ppCurrentIndex % WIDTH !== 0 && notBlocked(ppCurrentIndex - 1, false))
         ppCurrentIndex--;
       nextToExit(-1);
       break;
     case 38:
       if (
         ppCurrentIndex - WIDTH >= 0 &&
-        notBlocked(-WIDTH, ppCurrentIndex, false)
+        notBlocked(ppCurrentIndex - WIDTH, false)
       )
         ppCurrentIndex -= WIDTH;
       break;
     case 39:
       if (
         ppCurrentIndex % WIDTH < WIDTH - 1 &&
-        notBlocked(1, ppCurrentIndex, false)
+        notBlocked(ppCurrentIndex + 1, false)
       )
         ppCurrentIndex++;
       nextToExit(1);
@@ -103,7 +104,7 @@ function move(e) {
     case 40:
       if (
         ppCurrentIndex + WIDTH < WIDTH * WIDTH &&
-        notBlocked(WIDTH, ppCurrentIndex, false)
+        notBlocked(ppCurrentIndex + WIDTH, false)
       )
         ppCurrentIndex += WIDTH;
       break;
@@ -112,18 +113,25 @@ function move(e) {
   }
   squares[ppCurrentIndex].classList.add('pac-person');
   pacDotEaten();
+  powerPelletEaten();
+  checkGameOver();
+  // checkWin()
 }
 
-function notBlocked(mod, index, isGhost) {
+function checkSquareFor(type, index) {
+  return squares[index].classList.contains(type);
+}
+
+function notBlocked(index, isGhost) {
   if (isGhost) {
     return (
-      !squares[index + mod].classList.contains('wall') &&
-      !squares[index + mod].classList.contains('ghost')
+      !squares[index].classList.contains('wall') &&
+      !squares[index].classList.contains('ghost')
     );
   }
   return (
-    !squares[index + mod].classList.contains('wall') &&
-    !squares[index + mod].classList.contains('ghost-lair')
+    !squares[index].classList.contains('wall') &&
+    !squares[index].classList.contains('ghost-lair')
   );
 }
 
@@ -152,8 +160,8 @@ function moveGhost(ghost) {
   const directions = [-1, 1, WIDTH, -WIDTH];
   let dir = directions[Math.floor(Math.random() * directions.length)];
 
-  ghost.timerId = setInterval(() => {
-    if (notBlocked(dir, ghost.currentIndex, true)) {
+  const handleGhostMove = () => {
+    if (notBlocked(ghost.currentIndex + dir, true)) {
       squares[ghost.currentIndex].classList.remove(
         ghost.className,
         'ghost',
@@ -162,7 +170,47 @@ function moveGhost(ghost) {
       ghost.currentIndex += dir;
       squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
     } else dir = directions[Math.floor(Math.random() * directions.length)];
-  }, ghost.speed);
+
+    if (ghost.isScared) squares[ghost.currentIndex].classList.add('scared');
+    if (ghost.isScared && checkSquareFor('pac-person', ghost.currentIndex)) {
+      squares[ghost.currentIndex].classList.remove(
+        ghost.className,
+        'ghost',
+        'scared'
+      );
+      ghost.currentIndex = ghost.startIndex;
+      score += 100;
+      squares[ghost.currentIndex].classList.add(ghost.classList, 'ghost');
+    }
+
+    checkGameOver();
+  };
+
+  ghost.timerId = setInterval(handleGhostMove, ghost.speed);
+}
+
+function powerPelletEaten() {
+  if (checkSquareFor('power-pellet', ppCurrentIndex)) {
+    score += 10;
+    ghosts.forEach((ghost) => (ghost.isScared = true));
+    setTimeout(unScareGhosts, SCARED_GHOST_TIME);
+    squares[ppCurrentIndex].classList.remove('power-pellet');
+  }
+}
+
+function unScareGhosts() {
+  ghosts.forEach((ghost) => (ghost.isScared = false));
+}
+
+function checkGameOver() {
+  if (
+    checkSquareFor('ghost', ppCurrentIndex) &&
+    !checkSquareFor('scared', ppCurrentIndex)
+  ) {
+    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
+    document.removeEventListener('keyup', move);
+    setTimeout(() => alert('Game over!'), 500);
+  }
 }
 
 startGame();
