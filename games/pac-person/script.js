@@ -42,16 +42,24 @@ const layout = [
 ];
 
 const WIDTH = 28;
-
 const grid = document.querySelector('.grid');
 const scoreEl = document.getElementById('score');
 const squares = [];
+
+const ghosts = [
+  new Ghost('blinky', 348, 250),
+  new Ghost('pinky', 376, 400),
+  new Ghost('inky', 351, 300),
+  new Ghost('clyde', 379, 500),
+];
 
 let score = 0;
 let ppCurrentIndex = 490;
 
 function startGame() {
   createBoard();
+  drawGhosts();
+  ghosts.forEach((ghost) => moveGhost(ghost));
   squares[ppCurrentIndex].classList.add('pac-person');
   document.addEventListener('keyup', move);
 }
@@ -73,19 +81,21 @@ function move(e) {
   squares[ppCurrentIndex].classList.remove('pac-person');
   switch (e.keyCode) {
     case 37:
-      if (ppCurrentIndex % WIDTH !== 0 && notBlocked(-1)) ppCurrentIndex--;
+      if (ppCurrentIndex % WIDTH !== 0 && notBlocked(-1, false))
+        ppCurrentIndex--;
       nextToExit(-1);
       break;
     case 38:
-      if (ppCurrentIndex - WIDTH >= 0 && notBlocked(-WIDTH))
+      if (ppCurrentIndex - WIDTH >= 0 && notBlocked(-WIDTH, false))
         ppCurrentIndex -= WIDTH;
       break;
     case 39:
-      if (ppCurrentIndex % WIDTH < WIDTH - 1 && notBlocked(1)) ppCurrentIndex++;
+      if (ppCurrentIndex % WIDTH < WIDTH - 1 && notBlocked(1, false))
+        ppCurrentIndex++;
       nextToExit(1);
       break;
     case 40:
-      if (ppCurrentIndex + WIDTH < WIDTH * WIDTH && notBlocked(WIDTH))
+      if (ppCurrentIndex + WIDTH < WIDTH * WIDTH && notBlocked(WIDTH, false))
         ppCurrentIndex += WIDTH;
       break;
     default:
@@ -95,11 +105,18 @@ function move(e) {
   pacDotEaten();
 }
 
-function notBlocked(mod) {
-  return (
-    !squares[ppCurrentIndex + mod].classList.contains('wall') &&
-    !squares[ppCurrentIndex + mod].classList.contains('ghost-lair')
-  );
+function notBlocked(mod, isGhost) {
+  if (isGhost) {
+    return (
+      !squares[ppCurrentIndex + mod].classList.contains('wall') &&
+      !squares[ppCurrentIndex + mod].classList.contains('ghost')
+    );
+  } else {
+    return (
+      !squares[ppCurrentIndex + mod].classList.contains('wall') &&
+      !squares[ppCurrentIndex + mod].classList.contains('ghost-lair')
+    );
+  }
 }
 
 function nextToExit(mod) {
@@ -113,6 +130,30 @@ function pacDotEaten() {
     scoreEl.innerText = score;
     squares[ppCurrentIndex].classList.remove('pac-dot');
   }
+}
+
+function drawGhosts() {
+  ghosts.forEach((ghost) => {
+    squares[ghost.currentIndex].classList.add(ghost.className);
+    squares[ghost.currentIndex].classList.add('ghost');
+  });
+}
+
+function moveGhost(ghost) {
+  const directions = [-1, 1, WIDTH, -WIDTH];
+  let dir = directions[Math.floor(Math.random() * directions.length)];
+
+  ghost.timerId = setInterval(() => {
+    if (notBlocked(dir, true)) {
+      squares[ghost.currentIndex].classList.remove(
+        ghost.className,
+        'ghost',
+        'scared'
+      );
+      ghost.currentIndex += dir;
+      squares[ghost.currentIndex].classList.add('ghost');
+    } else dir = directions[Math.floor(Math.random() * directions.length)];
+  }, ghost.speed);
 }
 
 startGame();
