@@ -115,7 +115,7 @@ function move(e) {
   pacDotEaten();
   powerPelletEaten();
   checkGameOver();
-  // checkWin()
+  checkWin();
 }
 
 function checkSquareFor(type, index) {
@@ -210,6 +210,14 @@ function checkGameOver() {
     ghosts.forEach((ghost) => clearInterval(ghost.timerId));
     document.removeEventListener('keyup', move);
     setTimeout(() => alert('Game over!'), 500);
+  }
+}
+
+function checkWin() {
+  if (score >= 274) {
+    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
+    document.removeEventListener('keyup', move);
+    alert('You win!');
   }
 }
 
