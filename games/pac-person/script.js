@@ -40,9 +40,10 @@ const layout = [
   0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
   1, 1, 1, 1,
 ];
+const lairEntrance = [321, 322];
 
 const WIDTH = 28;
-const DIRECTIONS = [-1, 1, WIDTH, -WIDTH];
+const DIRECTIONS = [1, -1, WIDTH, -WIDTH];
 const SCARED_GHOST_TIME = 10000;
 
 const grid = document.querySelector('.grid');
@@ -85,92 +86,72 @@ function drawGhosts() {
     squares[ghost.currentIndex].classList.add(ghost.className);
     squares[ghost.currentIndex].classList.add('ghost');
   });
-  ghosts.forEach(
-    (ghost) => (ghost.timerId = setInterval(handleGhostMove, ghost.speed))
-  );
+  ghosts.forEach((ghost) => moveGhost(ghost));
 }
 
 // GHOST LOGIC
-function handleGhostMove() {
-  let dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
-
-  if (notBlocked(ghost.currentIndex + dir, true)) {
-    squares[ghost.currentIndex].classList.remove(
-      ghost.className,
-      'ghost',
-      'scared'
-    );
-
-    if (isOptimumDir(dir, ghost)) {
+function moveGhost(ghost) {
+  ghost.timerId = setInterval(() => {
+    const dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
+    if (isNotBlocked(ghost.currentIndex + dir, true)) {
+      squares[ghost.currentIndex].classList.remove(
+        ghost.className,
+        'ghost',
+        'scared'
+      );
       ghost.currentIndex += dir;
       squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
-    } else {
-      squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
-      dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
     }
 
-    squares[ghost.currentIndex].classList.add(ghost.className, 'ghost');
-  } else dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)];
+    if (ghost.isScared) squares[ghost.currentIndex].classList.add('scared');
+    handleScared(ghost);
+    checkGameOver();
+  }, ghost.speed);
+}
 
-  if (ghost.isScared) squares[ghost.currentIndex].classList.add('scared');
-  if (ghost.isScared && checkSquareFor('pac-person', ghost.currentIndex)) {
+function handleScared(ghost) {
+  if (
+    ghost.isScared &&
+    (checkSquareFor('pac-person', ghost.currentIndex) ||
+      checkSquareFor('ghost', ppCurrentIndex))
+  ) {
     squares[ghost.currentIndex].classList.remove(
       ghost.className,
       'ghost',
       'scared'
     );
     ghost.currentIndex = ghost.startIndex;
-    score += 100;
+    score += 50;
+    scoreEl.innerText = score;
     squares[ghost.currentIndex].classList.add(ghost.classList, 'ghost');
   }
-  if (checkSquareFor('pac-man', ghost.currentIndex))
-    clearInterval(ghost.timerId);
-
-  checkGameOver();
-}
-
-function isOptimumDir(dir, ghost) {
-  const getCoordinates = (index) => {
-    return [index % WIDTH, Math.floor(index / WIDTH)];
-  };
-  const [ghostX, ghostY] = getCoordinates(ghost.currentIndex);
-  const [ppX, ppY] = getCoordinates(ppCurrentIndex);
-  const [ghostNewX, ghostNewY] = getCoordinates(ghost.currentIndex + dir);
-
-  const isCloserByAxis = (xAxis) => {
-    let ghostCurrent = xAxis ? ghostX : ghostY;
-    let ghostNew = xAxis ? ghostNewX : ghostNewY;
-    let ppCurrent = xAxis ? ppX : ppY;
-
-    if (ghostNew - ppCurrent > ghostCurrent - ppCurrent) {
-      return true;
-    } else return false;
-  };
-
-  if (isCloserByAxis(true) || isCloserByAxis(false)) return true;
-  else return false;
 }
 
 // PLAYER MOVEMENT
 function move(e) {
+  let isGhost = false;
   squares[ppCurrentIndex].classList.remove('pac-person');
+
   switch (e.keyCode) {
     case 37:
-      if (ppCurrentIndex % WIDTH !== 0 && notBlocked(ppCurrentIndex - 1, false))
+      if (
+        ppCurrentIndex % WIDTH !== 0 &&
+        isNotBlocked(ppCurrentIndex - 1, isGhost)
+      )
         ppCurrentIndex--;
       nextToExit(-1);
       break;
     case 38:
       if (
         ppCurrentIndex - WIDTH >= 0 &&
-        notBlocked(ppCurrentIndex - WIDTH, false)
+        isNotBlocked(ppCurrentIndex - WIDTH, isGhost)
       )
         ppCurrentIndex -= WIDTH;
       break;
     case 39:
       if (
         ppCurrentIndex % WIDTH < WIDTH - 1 &&
-        notBlocked(ppCurrentIndex + 1, false)
+        isNotBlocked(ppCurrentIndex + 1, isGhost)
       )
         ppCurrentIndex++;
       nextToExit(1);
@@ -178,18 +159,18 @@ function move(e) {
     case 40:
       if (
         ppCurrentIndex + WIDTH < WIDTH * WIDTH &&
-        notBlocked(ppCurrentIndex + WIDTH, false)
+        isNotBlocked(ppCurrentIndex + WIDTH, isGhost)
       )
         ppCurrentIndex += WIDTH;
       break;
     default:
       break;
   }
+
   squares[ppCurrentIndex].classList.add('pac-person');
   pacDotEaten();
   powerPelletEaten();
   checkGameOver();
-  checkWin();
 }
 
 function pacDotEaten() {
@@ -203,6 +184,7 @@ function pacDotEaten() {
 function powerPelletEaten() {
   if (checkSquareFor('power-pellet', ppCurrentIndex)) {
     score += 10;
+    scoreEl.innerText = score;
     ghosts.forEach((ghost) => (ghost.isScared = true));
     setTimeout(unScareGhosts, SCARED_GHOST_TIME);
     squares[ppCurrentIndex].classList.remove('power-pellet');
@@ -218,22 +200,18 @@ function checkSquareFor(type, index) {
   return squares[index].classList.contains(type);
 }
 
-function notBlocked(index, isGhost) {
-  if (isGhost) {
-    return (
-      !squares[index].classList.contains('wall') &&
-      !squares[index].classList.contains('ghost')
-    );
-  }
+function isNotBlocked(index, isGhost) {
   return (
     !squares[index].classList.contains('wall') &&
-    !squares[index].classList.contains('ghost-lair')
+    (isGhost
+      ? !squares[index].classList.contains('ghost')
+      : !squares[index].classList.contains('ghost-lair'))
   );
 }
 
-function nextToExit(mod) {
-  if (ppCurrentIndex + mod === 363) ppCurrentIndex = 391;
-  if (ppCurrentIndex + mod === 392) ppCurrentIndex = 364;
+function nextToExit(dir) {
+  if (ppCurrentIndex + dir === 363) ppCurrentIndex = 391;
+  if (ppCurrentIndex + dir === 392) ppCurrentIndex = 364;
 }
 
 // END GAME
@@ -242,18 +220,22 @@ function checkGameOver() {
     checkSquareFor('ghost', ppCurrentIndex) &&
     !checkSquareFor('scared', ppCurrentIndex)
   ) {
-    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
-    document.removeEventListener('keyup', move);
-    setTimeout(() => alert('Game over!'), 500);
+    endGame('LOSE');
+  } else if (score >= 274) {
+    endGame('WIN');
   }
+  return;
 }
 
-function checkWin() {
-  if (score >= 274) {
-    ghosts.forEach((ghost) => clearInterval(ghost.timerId));
-    document.removeEventListener('keyup', move);
-    alert('You win!');
-  }
+function endGame(result) {
+  ghosts.forEach((ghost) => clearInterval(ghost.timerId));
+  document.removeEventListener('keyup', move);
+  scoreEl.innerText = `YOU ${result}!`;
+  setTimeout(() => {
+    confirm('Play again?')
+      ? (window.location = '/games/pac-person')
+      : (window.location = '/');
+  }, 500);
 }
 
 startGame();
