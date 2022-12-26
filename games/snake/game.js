@@ -15,8 +15,9 @@ const gameBoard = document.getElementById('game-board');
 
 function main(currentTime) {
   if (gameOver) {
-    const choice = confirm('You lost! Press OK to restart.');
-    choice ? (window.location = '/games/snake') : (window.location = '/');
+    confirm('You lost! Press OK to restart.')
+      ? (window.location = '/games/snake')
+      : (window.location = '/');
     return;
   }
 
