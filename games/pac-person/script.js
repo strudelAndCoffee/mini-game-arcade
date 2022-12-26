@@ -45,13 +45,13 @@ const grid = document.querySelector('.grid');
 const scoreEl = document.getElementById('score');
 const squares = [];
 
+let score = 0;
 let ppCurrentIndex = 490;
 
 function startGame() {
   createBoard();
   squares[ppCurrentIndex].classList.add('pac-person');
-
-  document.addEventListener('keydown', move);
+  document.addEventListener('keyup', move);
 }
 
 function createBoard() {
@@ -62,6 +62,7 @@ function createBoard() {
 
     if (layout[i] === 0) squares[i].classList.add('pac-dot');
     if (layout[i] === 1) squares[i].classList.add('wall');
+    if (layout[i] === 2) squares[i].classList.add('ghost-lair');
     if (layout[i] === 3) squares[i].classList.add('power-pellet');
   }
 }
@@ -70,27 +71,46 @@ function move(e) {
   squares[ppCurrentIndex].classList.remove('pac-person');
   switch (e.keyCode) {
     case 37:
-      if (ppCurrentIndex % WIDTH !== 0 && noWallAt(-1)) ppCurrentIndex--;
+      if (ppCurrentIndex % WIDTH !== 0 && notBlocked(-1)) ppCurrentIndex--;
+      nextToExit(-1);
       break;
     case 38:
-      if (ppCurrentIndex - WIDTH >= 0 && noWallAt(-WIDTH))
+      if (ppCurrentIndex - WIDTH >= 0 && notBlocked(-WIDTH))
         ppCurrentIndex -= WIDTH;
       break;
     case 39:
-      if (ppCurrentIndex % WIDTH < WIDTH - 1 && noWallAt(1)) ppCurrentIndex++;
+      if (ppCurrentIndex % WIDTH < WIDTH - 1 && notBlocked(1)) ppCurrentIndex++;
+      nextToExit(1);
       break;
     case 40:
-      if (ppCurrentIndex + WIDTH < WIDTH * WIDTH && noWallAt(WIDTH))
+      if (ppCurrentIndex + WIDTH < WIDTH * WIDTH && notBlocked(WIDTH))
         ppCurrentIndex += WIDTH;
       break;
     default:
       break;
   }
   squares[ppCurrentIndex].classList.add('pac-person');
+  pacDotEaten();
 }
 
-function noWallAt(mod) {
-  return !squares[ppCurrentIndex + mod].classList.contains('wall');
+function notBlocked(mod) {
+  return (
+    !squares[ppCurrentIndex + mod].classList.contains('wall') &&
+    !squares[ppCurrentIndex + mod].classList.contains('ghost-lair')
+  );
 }
 
-document.addEventListener('DOMContentLoaded', () => startGame());
+function nextToExit(mod) {
+  if (ppCurrentIndex + mod === 363) ppCurrentIndex = 391;
+  if (ppCurrentIndex + mod === 392) ppCurrentIndex = 364;
+}
+
+function pacDotEaten() {
+  if (squares[ppCurrentIndex].classList.contains('pac-dot')) {
+    score++;
+    scoreEl.innerHTML = score;
+    squares[ppCurrentIndex].classList.remove('pac-dot');
+  }
+}
+
+startGame();
