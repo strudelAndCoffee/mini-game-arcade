@@ -1,0 +1,33 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background-color: #111;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid {
+  --cols: 10;
+  --rows: 10;
+  width: 500px;
+  height: 500px;
+  border: 1px solid white;
+  display: grid;
+  grid-template-columns: repeat(var(--cols), auto);
+  grid-template-rows: repeat(var(--rows), auto);
+}
+
+.cell {
+  border: 1px solid #111;
+}
+
+.cell.alive {
+  background-color: white;
+}
