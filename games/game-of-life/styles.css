@@ -8,6 +8,8 @@
   --light: #ccc;
   --med: #777;
   --dark: #111;
+  --tile-btn: #222;
+  --grid-height: 90vh;
 }
 
 body {
@@ -23,8 +25,8 @@ body {
 .grid {
   --cols: 10;
   --rows: 10;
-  width: 500px;
-  height: 500px;
+  height: var(--grid-height);
+  width: var(--grid-height);
   border: 1px solid var(--light);
   display: grid;
   grid-template-columns: repeat(var(--cols), auto);
@@ -40,18 +42,19 @@ body {
 }
 
 .btn {
-  background-color: var(--dark);
-  transition: background-color ease;
+  border: none;
+  background-image: linear-gradient(to bottom right, black, var(--tile-btn));
+  transition: background-image ease;
 }
 .btn:hover {
-  background-color: var(--med);
+  background-image: linear-gradient(to bottom right, var(--med), var(--med));
 }
 .btn.selected {
-  background-color: var(--light);
+  background-image: var(--light);
 }
 
 .cell {
-  border: 1px solid var(--dark);
+  border: none;
 }
 
 .cell.alive {
