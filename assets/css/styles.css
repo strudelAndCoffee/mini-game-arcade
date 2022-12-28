@@ -70,7 +70,7 @@ body {
   color: var(--primary-color);
 }
 .card:hover {
-  transform: scale(105%);
+  transform: scale(102%);
 }
 
 .game-name {
