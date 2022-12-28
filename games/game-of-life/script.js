@@ -1,6 +1,6 @@
 import { makeGridArray, getNeighbors } from './js/utils.js';
 
-const SIDE = 10;
+const SIDE = 5;
 const DIMENSION = SIDE * SIDE;
 const CONFIG = [];
 
@@ -9,7 +9,7 @@ const gridEl = document.getElementById('grid');
 const startGameBtn = document.getElementById('start');
 const resetBtn = document.getElementById('reset');
 
-let iterations = 100;
+let iterations = 10;
 
 function setup() {
   configGridEl.style.setProperty('--cols', SIDE);
@@ -92,11 +92,21 @@ function runGame(tiles, gen) {
   for (let i = 0; i < gen.length; i++) {
     const liveNeighbors = getNeighbors(i, gen, SIDE);
     let border = gen[i][1];
-    let n = 0;
+    let n;
 
-    if (gen[i][0] === 1 && (liveNeighbors < 2 || liveNeighbors >= 3)) {
-      n = 0;
-    } else if (gen[i][0] === 0 && liveNeighbors >= 3) n = 1;
+    if (gen[i][0] === 1) {
+      if (liveNeighbors < 2 || liveNeighbors > 3) {
+        n = 0;
+      } else {
+        n = 1;
+      }
+    } else {
+      if (liveNeighbors >= 3) {
+        n = 1;
+      } else {
+        n = 0;
+      }
+    }
 
     let newCell = [n, border];
     newGen.push(newCell);
