@@ -21,7 +21,8 @@ function makeGridArray(dimension, side, config) {
       border = 'right';
     }
 
-    let cell = [Math.floor(Math.random() * 2), border];
+    let n = index % 3 === 0 ? 1 : 0;
+    let cell = [n, border];
     arr.push(cell);
     index++;
   }
@@ -29,4 +30,91 @@ function makeGridArray(dimension, side, config) {
   return arr;
 }
 
-export { makeGridArray };
+function getNeighbors(index, gen, side) {
+  const cell = gen[index];
+  let neighbors;
+
+  const leftTop = index - side - 1;
+  const left = index - 1;
+  const leftBtm = index + side - 1;
+  const top = index - side;
+  const btm = index + side;
+  const rightTop = index - side + 1;
+  const right = index + 1;
+  const rightBtm = index + side + 1;
+
+  if (cell[1] === null) {
+    neighbors = [
+      gen[leftTop][0],
+      gen[left][0],
+      gen[leftBtm][0],
+      gen[top][0],
+      gen[btm][0],
+      gen[rightTop][0],
+      gen[right][0],
+      gen[rightBtm][0],
+    ];
+  } else {
+    switch (gen[index][1]) {
+      case 'top':
+        neighbors = [
+          gen[left][0],
+          gen[leftBtm][0],
+          gen[btm][0],
+          gen[right][0],
+          gen[rightBtm][0],
+        ];
+        break;
+      case 'bottom':
+        neighbors = [
+          gen[leftTop][0],
+          gen[left][0],
+          gen[top][0],
+          gen[rightTop][0],
+          gen[right][0],
+        ];
+        break;
+      case 'left':
+        neighbors = [
+          gen[top][0],
+          gen[btm][0],
+          gen[rightTop][0],
+          gen[right][0],
+          gen[rightBtm][0],
+        ];
+        break;
+      case 'right':
+        neighbors = [
+          gen[leftTop][0],
+          gen[left][0],
+          gen[leftBtm][0],
+          gen[top][0],
+          gen[btm][0],
+        ];
+        break;
+      case 'nw':
+        neighbors = [gen[btm][0], gen[right][0], gen[rightBtm][0]];
+        break;
+      case 'ne':
+        neighbors = [gen[left][0], gen[leftBtm][0], gen[btm][0]];
+        break;
+      case 'se':
+        neighbors = [gen[leftTop][0], gen[left][0], gen[top][0]];
+        break;
+      case 'sw':
+        neighbors = [gen[top][0], gen[rightTop][0], gen[right][0]];
+        break;
+      default:
+        neighbors = [];
+        break;
+    }
+  }
+
+  let liveNeighbors = 0;
+  neighbors.forEach((n) => {
+    if (n === 1) liveNeighbors++;
+  });
+  return liveNeighbors;
+}
+
+export { makeGridArray, getNeighbors };

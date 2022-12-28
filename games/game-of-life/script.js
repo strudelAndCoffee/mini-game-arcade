@@ -1,21 +1,20 @@
-import { makeGridArray } from './js/utils.js';
-import { getNeighbors, applyRules } from './js/rules.js';
+import { makeGridArray, getNeighbors } from './js/utils.js';
 
 const SIDE = 5;
 const DIMENSION = SIDE * SIDE;
-
+const CONFIG = [];
 const gridEl = document.getElementById('grid');
-let tiles;
-let currentGen;
-let newGen;
+
+let iterations = 1000;
 
 function setup() {
-  const config = [];
-  currentGen = makeGridArray(DIMENSION, SIDE, config);
+  const starterGen = makeGridArray(DIMENSION, SIDE, CONFIG);
+  console.log(starterGen);
 
   drawGridContainer();
-  tiles = gridEl.children;
-  runGame(tiles);
+  const tiles = gridEl.children;
+
+  runGame(tiles, starterGen);
 }
 
 function drawGridContainer() {
@@ -31,24 +30,32 @@ function drawGridContainer() {
   }
 }
 
-function runGame(tiles) {
-  drawCurrentGen(tiles);
-  updateGen();
-}
-
-function drawCurrentGen(tiles) {
-  for (let i = 0; i < currentGen.length; i++) {
-    currentGen[i][0] === 1
+function drawCurrentGen(tiles, gen) {
+  for (let i = 0; i < gen.length; i++) {
+    gen[i][0] === 1
       ? tiles[i].classList.add('alive')
       : tiles[i].classList.remove('alive');
   }
 }
 
-function updateGen() {
-  currentGen.forEach((cell, index) => {
-    let neighbors = getNeighbors(index, currentGen, SIDE);
-    console.log(neighbors);
-  });
+function runGame(tiles, gen) {
+  drawCurrentGen(tiles, gen);
+  const newGen = [];
+
+  for (let i = 0; i < gen.length; i++) {
+    const liveNeighbors = getNeighbors(i, gen, SIDE);
+    let border = gen[i][1];
+    let n = 0;
+
+    if (gen[i][0] === 1 && (liveNeighbors < 2 || liveNeighbors >= 3)) {
+      n = 0;
+    } else if (gen[i][0] === 0 && liveNeighbors >= 3) n = 1;
+
+    let newCell = [n, border];
+    newGen.push(newCell);
+  }
+
+  console.log(newGen);
 }
 
 setup();
