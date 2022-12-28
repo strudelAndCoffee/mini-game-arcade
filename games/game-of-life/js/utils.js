@@ -21,7 +21,7 @@ function makeGridArray(dimension, side, config) {
       border = 'right';
     }
 
-    let n = index % 3 === 0 ? 1 : 0;
+    let n = config[index];
     let cell = [n, border];
     arr.push(cell);
     index++;

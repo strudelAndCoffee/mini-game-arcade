@@ -1,31 +1,77 @@
 import { makeGridArray, getNeighbors } from './js/utils.js';
 
-const SIDE = 5;
+const SIDE = 10;
 const DIMENSION = SIDE * SIDE;
 const CONFIG = [];
-const gridEl = document.getElementById('grid');
 
-let iterations = 1000;
+const configGridEl = document.getElementById('configGrid');
+const gridEl = document.getElementById('grid');
+const startGameBtn = document.getElementById('start');
+const resetBtn = document.getElementById('reset');
+
+let iterations = 100;
 
 function setup() {
-  const starterGen = makeGridArray(DIMENSION, SIDE, CONFIG);
-  console.log(starterGen);
+  configGridEl.style.setProperty('--cols', SIDE);
+  configGridEl.style.setProperty('--rows', SIDE);
+  drawGridContainer('config', 'btn');
 
-  drawGridContainer();
+  for (let i = 0; i < DIMENSION; i++) {
+    CONFIG.push(0);
+  }
+
+  configGridEl.addEventListener('click', (e) => {
+    let target = e.target;
+    target.classList.add('selected');
+  });
+  resetBtn.addEventListener('click', () => {
+    const selectedCellEls = gridEl.querySelectorAll('.selected');
+    const selectedCells = Array.from(selectedCellEls);
+    selectedCells.forEach((cell) => cell.classList.remove('selected'));
+
+    window.location = '/games/game-of-life';
+  });
+  startGameBtn.addEventListener('click', () => {
+    const selectedCellEls = configGridEl.querySelectorAll('.selected');
+    const selectedCells = Array.from(selectedCellEls);
+    selectedCells.forEach((cell) => (CONFIG[cell.dataset.index] = 1));
+
+    resetGrid();
+    startGameBtn.classList.add('hide');
+    startGame();
+  });
+}
+
+function resetGrid() {
+  configGridEl.classList.add('hide');
+  gridEl.style.setProperty('--cols', SIDE);
+  gridEl.style.setProperty('--rows', SIDE);
+  gridEl.classList.remove('hide');
+}
+
+function startGame() {
+  const starterGen = makeGridArray(DIMENSION, SIDE, CONFIG);
+  drawGridContainer('');
   const tiles = gridEl.children;
 
   runGame(tiles, starterGen);
 }
 
-function drawGridContainer() {
-  gridEl.style.setProperty('--cols', SIDE);
-  gridEl.style.setProperty('--rows', SIDE);
+function drawGridContainer(type) {
+  const grid = type === 'config' ? configGridEl : gridEl;
 
   let count = 0;
   while (count < DIMENSION) {
-    let tileEl = document.createElement('div');
-    tileEl.classList.add('cell');
-    gridEl.appendChild(tileEl);
+    if (type === 'config') {
+      let btnEl = document.createElement('button');
+      btnEl.classList.add('btn');
+      btnEl.dataset.index = count;
+      grid.appendChild(btnEl);
+    } else {
+      let tileEl = document.createElement('div');
+      tileEl.classList.add('cell');
+      grid.appendChild(tileEl);
+    }
     count++;
   }
 }
@@ -39,6 +85,7 @@ function drawCurrentGen(tiles, gen) {
 }
 
 function runGame(tiles, gen) {
+  iterations--;
   drawCurrentGen(tiles, gen);
   const newGen = [];
 
@@ -55,7 +102,8 @@ function runGame(tiles, gen) {
     newGen.push(newCell);
   }
 
-  console.log(newGen);
+  if (iterations <= 0) return;
+  setTimeout(() => runGame(tiles, newGen), 200);
 }
 
 setup();

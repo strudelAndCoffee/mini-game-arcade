@@ -9,6 +9,7 @@ body {
   background-color: #111;
   height: 100vh;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
@@ -22,6 +23,25 @@ body {
   display: grid;
   grid-template-columns: repeat(var(--cols), auto);
   grid-template-rows: repeat(var(--rows), auto);
+}
+
+.start-container button {
+  font-size: 1em;
+}
+
+.hide {
+  display: none;
+}
+
+.btn {
+  background-color: #111;
+  transition: background-color ease;
+}
+.btn:hover {
+  background-color: gray;
+}
+.btn.selected {
+  background-color: white;
 }
 
 .cell {
