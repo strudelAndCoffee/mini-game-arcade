@@ -4,9 +4,15 @@
   box-sizing: border-box;
 }
 
+:root {
+  --light: #ccc;
+  --med: #777;
+  --dark: #111;
+}
+
 body {
   margin: 0;
-  background-color: #111;
+  background-color: var(--dark);
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -19,14 +25,14 @@ body {
   --rows: 10;
   width: 500px;
   height: 500px;
-  border: 1px solid white;
+  border: 1px solid var(--light);
   display: grid;
   grid-template-columns: repeat(var(--cols), auto);
   grid-template-rows: repeat(var(--rows), auto);
 }
 
 .start-container button {
-  font-size: 1em;
+  font-size: 1.1em;
 }
 
 .hide {
@@ -34,20 +40,20 @@ body {
 }
 
 .btn {
-  background-color: #111;
+  background-color: var(--dark);
   transition: background-color ease;
 }
 .btn:hover {
-  background-color: gray;
+  background-color: var(--med);
 }
 .btn.selected {
-  background-color: white;
+  background-color: var(--light);
 }
 
 .cell {
-  border: 1px solid #111;
+  border: 1px solid var(--dark);
 }
 
 .cell.alive {
-  background-color: white;
+  background-color: var(--light);
 }

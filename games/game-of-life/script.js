@@ -1,22 +1,22 @@
 import { makeGridArray, getNeighbors } from './js/utils.js';
 
-const SIDE = 5;
-const DIMENSION = SIDE * SIDE;
-const CONFIG = [];
-
 const configGridEl = document.getElementById('configGrid');
 const gridEl = document.getElementById('grid');
 const startGameBtn = document.getElementById('start');
 const resetBtn = document.getElementById('reset');
 
-let iterations = 10;
+const side = 30;
+const generation_rate = 100;
+const dimension = side * side;
+const CONFIG = [];
+let iterations = 500;
 
-function setup() {
-  configGridEl.style.setProperty('--cols', SIDE);
-  configGridEl.style.setProperty('--rows', SIDE);
-  drawGridContainer('config', 'btn');
+function setupGame() {
+  configGridEl.style.setProperty('--cols', side);
+  configGridEl.style.setProperty('--rows', side);
+  drawGridContainer('config');
 
-  for (let i = 0; i < DIMENSION; i++) {
+  for (let i = 0; i < dimension; i++) {
     CONFIG.push(0);
   }
 
@@ -44,13 +44,13 @@ function setup() {
 
 function resetGrid() {
   configGridEl.classList.add('hide');
-  gridEl.style.setProperty('--cols', SIDE);
-  gridEl.style.setProperty('--rows', SIDE);
+  gridEl.style.setProperty('--cols', side);
+  gridEl.style.setProperty('--rows', side);
   gridEl.classList.remove('hide');
 }
 
 function startGame() {
-  const starterGen = makeGridArray(DIMENSION, SIDE, CONFIG);
+  const starterGen = makeGridArray(dimension, side, CONFIG);
   drawGridContainer('');
   const tiles = gridEl.children;
 
@@ -61,7 +61,7 @@ function drawGridContainer(type) {
   const grid = type === 'config' ? configGridEl : gridEl;
 
   let count = 0;
-  while (count < DIMENSION) {
+  while (count < dimension) {
     if (type === 'config') {
       let btnEl = document.createElement('button');
       btnEl.classList.add('btn');
@@ -90,7 +90,7 @@ function runGame(tiles, gen) {
   const newGen = [];
 
   for (let i = 0; i < gen.length; i++) {
-    const liveNeighbors = getNeighbors(i, gen, SIDE);
+    const liveNeighbors = getNeighbors(i, gen, side);
     let border = gen[i][1];
     let n;
 
@@ -113,7 +113,7 @@ function runGame(tiles, gen) {
   }
 
   if (iterations <= 0) return;
-  setTimeout(() => runGame(tiles, newGen), 200);
+  setTimeout(() => runGame(tiles, newGen), generation_rate);
 }
 
-setup();
+setupGame();
