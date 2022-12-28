@@ -4,6 +4,23 @@ The initial stage of this project is to hold all of the games that I have been b
 
 This repository is a work in progress, but I plan to deploy it to GitHub pages once I have built enough games and am happy with their UX!
 
+## Current Games
+
+- 2048 \*
+- Card games
+  - War \*
+- Conway's Game of Life
+- Hangman \*
+- Pac-Person \*
+- Pong \*
+- Dino Game \*
+- Danger Noodle \*
+- Tic-Tac-Toe \*
+- 3D Tic-Tac-Toe
+- VVordle \*
+
+\* _coded from tutorial_
+
 ## Code Sources Cited
 
 ### _Pong, Snake, Dino Game Clone, Wordle Clone, Tic Tac Toe, War, and 2048._
