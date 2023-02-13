@@ -19,16 +19,17 @@ This repository is a work in progress, but I plan to deploy it once I have built
 - 3D Tic-Tac-Toe
 - VVordle \*
 - Mine Remover \*
+- Flappy Pheasant \*
 
 \* _coded from tutorial_
 
 ## Code Sources Cited
 
-### _Pong, Snake, Dino Game Clone, Wordle Clone, Tic-Tac-Toe, War, 2048, and Minesweeper._
+### _Pong, Snake, Dino Game, Wordle, Tic-Tac-Toe, War, 2048, Minesweeper, and Flappy Bird Clones._
 
-All original code for these games are openly available for use, copy, and reference by [Web Dev Simplified](https://github.com/WebDevSimplified), and all code, files, and images are generously offered for non-commercial use as per the tutorial videos on the Web Dev Simplified [YouTube](https://www.youtube.com/@WebDevSimplified) channel.
+All original code for these games are openly available for use, copy, and reference by [Web Dev Simplified](https://github.com/WebDevSimplified), and all code, files, and images are generously offered for non-commercial use as per the tutorial videos, which can be found on the Web Dev Simplified [YouTube](https://www.youtube.com/@WebDevSimplified) channel.
 
-The code for Hangman was based on a tutorial for a TypeScript/React version of the game by Web Dev Simplified, and borrows snippets from the Wordle Clone repository. You can find my version of the origianl tutorial code [here](https://github.com/strudelAndCoffee/react-ts-guess-the-word).
+My code for Hangman was based on a tutorial for a TypeScript/React version of the game by Web Dev Simplified, and borrows snippets from my Wordle Clone repository. You can find my version of the origianl tutorial code [here](https://github.com/strudelAndCoffee/react-ts-guess-the-word).
 
 ### _Pac-Man._
 
@@ -53,5 +54,7 @@ All original code for this version of the game is openly available for use, copy
 [JS 2048](https://github.com/WebDevSimplified/js-2048)
 
 [JS Minesweeper](https://github.com/WebDevSimplified/JavaScript-Simplified-Advanced-Projects/tree/main/15-minesweeper/after)
+
+[Flappy Bird Clone](https://github.com/WebDevSimplified/flappy-bird-clone)
 
 [Pac-Man](https://github.com/kubowania/pac-man)
