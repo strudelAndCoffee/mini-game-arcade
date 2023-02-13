@@ -55,4 +55,45 @@ function getMinePositions(size, number_of_mines) {
   return positions
 }
 
-export { createBoard }
+function markTile(tile) {
+  if (
+    tile.status !== TILE_CLASSES.HIDDEN &&
+    tile.status !== TILE_CLASSES.MARKED
+  )
+    return
+
+  tile.status === TILE_CLASSES.MARKED
+    ? (tile.status = TILE_CLASSES.HIDDEN)
+    : (tile.status = TILE_CLASSES.MARKED)
+}
+
+function revealTile(board, tile) {
+  if (tile.status !== TILE_CLASSES.HIDDEN) return
+  if (tile.mine) {
+    tile.status = TILE_CLASSES.MINE
+    return
+  }
+
+  tile.status = TILE_CLASSES.NUMBER
+  const adjacent_tiles = nearbyTiles(board, tile)
+  const mines = adjacent_tiles.filter((t) => t.mine)
+
+  mines.length === 0
+    ? adjacent_tiles.forEach(revealTile.bind(null, board))
+    : (tile.element.textContent = mines.length)
+}
+
+function nearbyTiles(board, { x, y }) {
+  const tiles = []
+
+  for (let xOffest = -1; xOffest <= 1; xOffest++) {
+    for (let yOffest = -1; yOffest <= 1; yOffest++) {
+      let tile = board[x + xOffest]?.[y + yOffest]
+      if (tile) tiles.push(tile)
+    }
+  }
+
+  return tiles
+}
+
+export { TILE_CLASSES, createBoard, markTile, revealTile }
