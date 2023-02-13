@@ -6,4 +6,8 @@ function positionsMatch(a, b) {
   return a.x === b.x && a.y === b.y
 }
 
-export { randomNumber, positionsMatch }
+function stopProp(e) {
+  e.stopImmediatePropagation()
+}
+
+export { randomNumber, positionsMatch, stopProp }

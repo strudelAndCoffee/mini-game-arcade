@@ -96,4 +96,25 @@ function nearbyTiles(board, { x, y }) {
   return tiles
 }
 
-export { TILE_CLASSES, createBoard, markTile, revealTile }
+function checkWin(board) {
+  return board.every((row) => {
+    return row.every((tile) => {
+      return (
+        tile.status === TILE_CLASSES.NUMBER ||
+        (tile.mine &&
+          (tile.status === TILE_CLASSES.HIDDEN ||
+            tile.status === TILE_CLASSES.MARKED))
+      )
+    })
+  })
+}
+
+function checkLose(board) {
+  return board.some((row) => {
+    return row.some((tile) => {
+      return tile.status === TILE_CLASSES.MINE
+    })
+  })
+}
+
+export { TILE_CLASSES, createBoard, markTile, revealTile, checkWin, checkLose }
