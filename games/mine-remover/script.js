@@ -8,8 +8,8 @@ import {
 } from './js/logic.js'
 import { stopProp } from './js/utils.js'
 
-const SIZE = 10
-const NUMBER_OF_MINES = 3
+const SIZE = 15
+const NUMBER_OF_MINES = 15
 
 const board = createBoard(SIZE, NUMBER_OF_MINES)
 const board_element = document.querySelector('.board')

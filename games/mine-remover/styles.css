@@ -8,26 +8,26 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 3rem;
+  font-size: 2rem;
   color: white;
 }
 
 .title {
-  margin: 20px;
+  margin: 15px;
 }
 
 .subtext {
   color: #ccc;
-  font-size: 1.5rem;
-  margin-bottom: 10px;
+  font-size: 1.4rem;
+  margin-bottom: 7px;
 }
 
 .board {
   display: inline-grid;
-  padding: 10px;
-  grid-template-columns: repeat(var(--size), 60px);
-  grid-template-rows: repeat(var(--size), 60px);
-  gap: 4px;
+  padding: 7px;
+  grid-template-columns: repeat(var(--size), 30px);
+  grid-template-rows: repeat(var(--size), 30px);
+  gap: 2px;
   background-color: #777;
 }
 
