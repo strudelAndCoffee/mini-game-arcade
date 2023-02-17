@@ -24,12 +24,21 @@ const ALIEN_WIDTH = TILE_SIZE * 2
 const ALIEN_HEIGHT = TILE_SIZE
 const ALIEN_X = TILE_SIZE
 const ALIEN_Y = TILE_SIZE
+const ALIEN_IMGS = []
+for (let i = 0; i < 4; i++) {
+  let alien_img = new Image()
+  if (i === 0) alien_img.src = './assets/images/alien.png'
+  else if (i === 1) alien_img.src = './assets/images/alien-cyan.png'
+  else if (i === 2) alien_img.src = './assets/images/alien-magenta.png'
+  else if (i === 3) alien_img.src = './assets/images/alien-yellow.png'
+
+  ALIEN_IMGS.push(alien_img)
+}
 let alien_arr = []
 let alien_rows = 2
 let alien_cols = 3
 let alien_count = 0
 let alien_velocity_x = 1
-let alien_img
 // bullets
 const bullet_velocity_y = -10
 let bullet_arr = []
@@ -49,8 +58,6 @@ window.onload = function () {
     context.drawImage(ship_img, ship.x, ship.y, ship.width, ship.height)
   }
 
-  alien_img = new Image()
-  alien_img.src = './assets/images/alien.png'
   createAliens()
 
   requestAnimationFrame(update)
@@ -84,7 +91,7 @@ function update() {
         }
       }
 
-      context.drawImage(alien_img, alien.x, alien.y, alien.width, alien.height)
+      context.drawImage(alien.img, alien.x, alien.y, alien.width, alien.height)
 
       if (alien.y >= ship.y) game_over = true
     }
@@ -151,8 +158,10 @@ function moveShip(e) {
 function createAliens() {
   for (let c = 0; c < alien_cols; c++) {
     for (let r = 0; r < alien_rows; r++) {
+      let random = Math.floor(Math.random() * 4)
+      let img = ALIEN_IMGS[random]
       let alien = {
-        img: alien_img,
+        img,
         x: ALIEN_X + c * ALIEN_WIDTH,
         y: ALIEN_Y + r * ALIEN_HEIGHT,
         width: ALIEN_WIDTH,
