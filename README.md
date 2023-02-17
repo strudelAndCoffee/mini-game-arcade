@@ -42,26 +42,15 @@ All original code for this version of the game is openly available for use, copy
 
 ## Links to cited repositories:
 
-[Wordle Clone](https://github.com/WebDevSimplified/wordle-clone)
-
-[Javascript Snake Game](https://github.com/WebDevSimplified/Javascript-Snake-Game)
-
-[Chrome Dino Game Clone](https://github.com/WebDevSimplified/chrome-dino-game-clone)
-
-[JS Pong](https://github.com/WebDevSimplified/js-pong)
-
-[React Hangman](https://github.com/WebDevSimplified/react-hangman)
-
-[JavaScript Tic-Tac-Toe](https://github.com/WebDevSimplified/JavaScript-Tic-Tac-Toe)
-
-[War Card Game](https://github.com/WebDevSimplified/War-Card-Game)
-
-[JS 2048](https://github.com/WebDevSimplified/js-2048)
-
-[JS Minesweeper](https://github.com/WebDevSimplified/JavaScript-Simplified-Advanced-Projects/tree/main/15-minesweeper/after)
-
-[Flappy Bird Clone](https://github.com/WebDevSimplified/flappy-bird-clone)
-
-[Pac-Man](https://github.com/kubowania/pac-man)
-
+[Wordle Clone](https://github.com/WebDevSimplified/wordle-clone)\
+[Javascript Snake Game](https://github.com/WebDevSimplified/Javascript-Snake-Game)\
+[Chrome Dino Game Clone](https://github.com/WebDevSimplified/chrome-dino-game-clone)\
+[JS Pong](https://github.com/WebDevSimplified/js-pong)\
+[React Hangman](https://github.com/WebDevSimplified/react-hangman)\
+[JavaScript Tic-Tac-Toe](https://github.com/WebDevSimplified/JavaScript-Tic-Tac-Toe)\
+[War Card Game](https://github.com/WebDevSimplified/War-Card-Game)\
+[JS 2048](https://github.com/WebDevSimplified/js-2048)\
+[JS Minesweeper](https://github.com/WebDevSimplified/JavaScript-Simplified-Advanced-Projects/tree/main/15-minesweeper/after)\
+[Flappy Bird Clone](https://github.com/WebDevSimplified/flappy-bird-clone)\
+[Pac-Man](https://github.com/kubowania/pac-man)\
 [Space Invaders](https://github.com/ImKennyYip/space-invaders)
