@@ -10,16 +10,17 @@ This repository is a work in progress, but I plan to deploy it once I have built
 - Card games
   - War \*
 - Conway's Game of Life
-- Hangman \*
-- Pac-Person \*
-- Pong \*
 - Dino Game \*
 - Danger Noodle \*
+- Flappy Pheasant \*
+- Hangman \*
+- Mine Remover \*
+- Pac-Person \*
+- Pong \*
+- Space Raiders \*
 - Tic-Tac-Toe \*
 - 3D Tic-Tac-Toe
 - VVordle \*
-- Mine Remover \*
-- Flappy Pheasant \*
 
 \* _coded from tutorial_
 
@@ -34,6 +35,10 @@ My code for Hangman was based on a tutorial for a TypeScript/React version of th
 ### _Pac-Man._
 
 All original code for this version of the game is openly available for use, copy, and reference by [Ania Kubow](https://github.com/kubowania), and all code is generously offered as per the tutorial videos on the Code With Ania Kubow [YouTube](https://www.youtube.com/@AniaKubow) channel.
+
+### _Space Invaders._
+
+All original code for this version of the game is openly available for use, copy, and reference by [Kenny Yip](https://github.com/ImKennyYip), and all code, files, and images are generously offered for non-commercial as per the tutorial videos, which can be found on the Kenny Yip Coding [YouTube](https://www.youtube.com/@KennyYipCoding) channel.
 
 ## Links to cited repositories:
 
@@ -58,3 +63,5 @@ All original code for this version of the game is openly available for use, copy
 [Flappy Bird Clone](https://github.com/WebDevSimplified/flappy-bird-clone)
 
 [Pac-Man](https://github.com/kubowania/pac-man)
+
+[Space Invaders](https://github.com/ImKennyYip/space-invaders)
