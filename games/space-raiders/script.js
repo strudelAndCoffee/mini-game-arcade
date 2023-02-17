@@ -19,6 +19,17 @@ const ship = {
 }
 let ship_velocity_x = TILE_SIZE
 let ship_img
+// aliens
+const ALIEN_WIDTH = TILE_SIZE * 2
+const ALIEN_HEIGHT = TILE_SIZE
+const ALIEN_X = TILE_SIZE
+const ALIEN_Y = TILE_SIZE
+const alien_arr = []
+let alien_rows = 2
+let alien_cols = 3
+let alien_count = 0
+let alien_velocity_x = 1
+let alien_img
 
 window.onload = function () {
   board = document.getElementById('board')
@@ -35,6 +46,10 @@ window.onload = function () {
     context.drawImage(ship_img, ship.x, ship.y, ship.width, ship.height)
   }
 
+  alien_img = new Image()
+  alien_img.src = './assets/images/alien.png'
+  createAliens()
+
   requestAnimationFrame(update)
   document.addEventListener('keydown', moveShip)
 }
@@ -43,7 +58,25 @@ function update() {
   requestAnimationFrame(update)
   context.clearRect(0, 0, board.width, board.height)
 
+  // draw ship
   context.drawImage(ship_img, ship.x, ship.y, ship.width, ship.height)
+  // draw aliens
+  for (let i = 0; i < alien_arr.length; i++) {
+    let alien = alien_arr[i]
+    if (alien.alive) {
+      alien.x += alien_velocity_x
+
+      // if alien touches border
+      if (alien.x + alien.width >= board.width || alien.x < 0) {
+        alien_velocity_x *= -1
+        for (let j = 0; j < alien_arr.length; j++) {
+          alien_arr[j].y += alien.height
+        }
+      }
+
+      context.drawImage(alien_img, alien.x, alien.y, alien.width, alien.height)
+    }
+  }
 }
 
 function moveShip(e) {
@@ -56,4 +89,23 @@ function moveShip(e) {
   ) {
     ship.x += ship_velocity_x
   }
+}
+
+function createAliens() {
+  for (let c = 0; c < alien_cols; c++) {
+    for (let r = 0; r < alien_rows; r++) {
+      let alien = {
+        img: alien_img,
+        x: ALIEN_X + c * ALIEN_WIDTH,
+        y: ALIEN_Y + r * ALIEN_HEIGHT,
+        width: ALIEN_WIDTH,
+        height: ALIEN_HEIGHT,
+        alive: true,
+      }
+
+      alien_arr.push(alien)
+    }
+  }
+
+  alien_count = alien_arr.length
 }
