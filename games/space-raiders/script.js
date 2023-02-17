@@ -1,3 +1,5 @@
+import Alien from './classes/Alien.js'
+
 // board
 const TILE_SIZE = 32
 const ROWS = 16
@@ -18,6 +20,7 @@ const ship = {
   width: SHIP_WIDTH,
 }
 const ship_velocity_x = TILE_SIZE
+let ship_lives = 3
 let ship_img
 // aliens
 const ALIEN_WIDTH = TILE_SIZE * 2
@@ -42,6 +45,11 @@ let alien_velocity_x = 1
 // bullets
 const bullet_velocity_y = -10
 let bullet_arr = []
+// bombs
+let bomb_freq = 1000
+let alien_bomb_interval = setInterval(alienBombController, bomb_freq)
+let bomb_velocity_y = 0.7
+let bomb_arr = []
 //score
 let score = 0
 let game_over = false
@@ -96,6 +104,7 @@ function update() {
       if (alien.y >= ship.y) game_over = true
     }
   }
+
   //draw bullets
   for (let i = 0; i < bullet_arr.length; i++) {
     let bullet = bullet_arr[i]
@@ -116,12 +125,35 @@ function update() {
     }
   }
 
+  //draw bombs
+  for (let i = 0; i < bomb_arr.length; i++) {
+    let bomb = bomb_arr[i]
+
+    bomb.y += bomb_velocity_y
+    context.fillStyle = 'yellow'
+    context.fillRect(bomb.x, bomb.y, bomb.width, bomb.height)
+
+    // bomb collisions
+    if (!bomb.used && detectCollision(bomb, ship)) {
+      bomb.used = true
+      score -= 10000
+      ship_lives--
+
+      if (ship_lives === 0) game_over = true
+    }
+  }
+
   // clear bullets
   while (
     (bullet_arr.length > 0 && bullet_arr[0]?.used) ||
     bullet_arr[0]?.y < 0
   ) {
     bullet_arr.shift()
+  }
+
+  // clear bombs
+  while ((bomb_arr.length > 0 && bomb_arr[0]?.used) || bomb_arr[0]?.y < 0) {
+    bomb_arr.shift()
   }
 
   // next level
@@ -160,15 +192,14 @@ function createAliens() {
     for (let r = 0; r < alien_rows; r++) {
       let random = Math.floor(Math.random() * 4)
       let img = ALIEN_IMGS[random]
-      let alien = {
-        img,
-        x: ALIEN_X + c * ALIEN_WIDTH,
-        y: ALIEN_Y + r * ALIEN_HEIGHT,
-        width: ALIEN_WIDTH,
-        height: ALIEN_HEIGHT,
-        alive: true,
-      }
+      let x = ALIEN_X + c * ALIEN_WIDTH
+      let y = ALIEN_Y + r * ALIEN_HEIGHT
+      let width = ALIEN_WIDTH
+      let height = ALIEN_HEIGHT
+      let row_n = r
+      let col_n = c
 
+      let alien = new Alien(img, x, y, width, height, row_n, col_n)
       alien_arr.push(alien)
     }
   }
@@ -192,6 +223,45 @@ function shoot(e) {
   }
 }
 
+function dropBomb(alien) {
+  let bomb = {
+    x: alien.x + (alien.width * 15) / 32,
+    y: alien.y + alien.height,
+    width: TILE_SIZE / 3,
+    height: TILE_SIZE / 3,
+    used: false,
+  }
+
+  bomb_arr.push(bomb)
+}
+
+function canDropBomb(alien) {
+  for (let i = 0; i < alien_arr.length; i++) {
+    let other_alien = alien_arr[i]
+
+    // check if other aliens are underneath
+    if (
+      alien.row_n < other_alien.row_n &&
+      alien.col_n === other_alien.col_n &&
+      other_alien.alive
+    )
+      return false
+  }
+  return true
+}
+
+function alienBombController() {
+  let random
+  // decide if alien drops bomb
+  for (let i = 0; i < alien_arr.length; i++) {
+    random = Math.floor(Math.random() * 3)
+    let alien = alien_arr[i]
+    if (alien.alive && canDropBomb(alien) && random < 1) {
+      dropBomb(alien)
+    }
+  }
+}
+
 function detectCollision(a, b) {
   return (
     a.x < b.x + b.width && // a's top left doesn't reach b's top right
@@ -202,6 +272,7 @@ function detectCollision(a, b) {
 }
 
 function runGameOver() {
+  clearInterval(alien_bomb_interval)
   context.fillStyle = 'red'
   context.font = '32px courier'
   context.fillText('GAME OVER', 170, 70)
