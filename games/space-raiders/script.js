@@ -17,7 +17,7 @@ const ship = {
   height: SHIP_HEIGHT,
   width: SHIP_WIDTH,
 }
-let ship_velocity_x = TILE_SIZE
+const ship_velocity_x = TILE_SIZE
 let ship_img
 // aliens
 const ALIEN_WIDTH = TILE_SIZE * 2
@@ -30,15 +30,15 @@ let alien_cols = 3
 let alien_count = 0
 let alien_velocity_x = 1
 let alien_img
+// bullets
+const bullet_velocity_y = -10
+const bullet_arr = []
 
 window.onload = function () {
   board = document.getElementById('board')
   board.width = BOARD_WIDTH
   board.height = BOARD_HEIGHT
   context = board.getContext('2d')
-
-  // context.fillStyle = 'green'
-  // context.fillRect(ship.x, ship.y, ship.width, ship.height)
 
   ship_img = new Image()
   ship_img.src = './assets/images/ship.png'
@@ -52,6 +52,7 @@ window.onload = function () {
 
   requestAnimationFrame(update)
   document.addEventListener('keydown', moveShip)
+  document.addEventListener('keyup', shoot)
 }
 
 function update() {
@@ -69,6 +70,7 @@ function update() {
       // if alien touches border
       if (alien.x + alien.width >= board.width || alien.x < 0) {
         alien_velocity_x *= -1
+        alien.x += alien_velocity_x * 2
         for (let j = 0; j < alien_arr.length; j++) {
           alien_arr[j].y += alien.height
         }
@@ -76,6 +78,14 @@ function update() {
 
       context.drawImage(alien_img, alien.x, alien.y, alien.width, alien.height)
     }
+  }
+  //draw bullets
+  for (let i = 0; i < bullet_arr.length; i++) {
+    let bullet = bullet_arr[i]
+
+    bullet.y += bullet_velocity_y
+    context.fillStyle = 'white'
+    context.fillRect(bullet.x, bullet.y, bullet.width, bullet.height)
   }
 }
 
@@ -108,4 +118,18 @@ function createAliens() {
   }
 
   alien_count = alien_arr.length
+}
+
+function shoot(e) {
+  if (e.code === 'Space') {
+    let bullet = {
+      x: ship.x + (ship.width * 15) / 32,
+      y: ship.y,
+      width: TILE_SIZE / 8,
+      height: TILE_SIZE / 2,
+      used: false,
+    }
+
+    bullet_arr.push(bullet)
+  }
 }
