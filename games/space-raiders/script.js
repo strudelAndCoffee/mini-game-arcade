@@ -24,7 +24,7 @@ const ALIEN_WIDTH = TILE_SIZE * 2
 const ALIEN_HEIGHT = TILE_SIZE
 const ALIEN_X = TILE_SIZE
 const ALIEN_Y = TILE_SIZE
-const alien_arr = []
+let alien_arr = []
 let alien_rows = 2
 let alien_cols = 3
 let alien_count = 0
@@ -32,7 +32,7 @@ let alien_velocity_x = 1
 let alien_img
 // bullets
 const bullet_velocity_y = -10
-const bullet_arr = []
+let bullet_arr = []
 
 window.onload = function () {
   board = document.getElementById('board')
@@ -86,6 +86,32 @@ function update() {
     bullet.y += bullet_velocity_y
     context.fillStyle = 'white'
     context.fillRect(bullet.x, bullet.y, bullet.width, bullet.height)
+
+    // bullet collisions
+    for (let j = 0; j < alien_arr.length; j++) {
+      let alien = alien_arr[j]
+      if (!bullet.used && alien.alive && detectCollision(bullet, alien)) {
+        bullet.used = true
+        alien.alive = false
+        alien_count--
+      }
+    }
+  }
+
+  // clear bullets
+  while ((bullet_arr.length > 0 && bullet_arr[0].used) || bullet_arr[0].y < 0) {
+    bullet_arr.shift()
+  }
+
+  // next level
+  if (alien_count === 0) {
+    alien_cols += 1 //= Math.min(alien_cols + 1, COLS / 2 - 2)
+    alien_rows += 1 //= Math.min(alien_rows + 1, ROWS - 4)
+    alien_velocity_x += 0.2
+
+    alien_arr = []
+    bullet_arr = []
+    createAliens()
   }
 }
 
@@ -132,4 +158,13 @@ function shoot(e) {
 
     bullet_arr.push(bullet)
   }
+}
+
+function detectCollision(a, b) {
+  return (
+    a.x < b.x + b.width && // a's top left doesn't reach b's top right
+    a.x + a.width > b.x && // a's top right passes b's top left
+    a.y < b.y + b.height && // a's top left doesn't reach b's bottom left
+    a.y + a.height > b.y // a's bottom left passes b's top lefft
+  )
 }
