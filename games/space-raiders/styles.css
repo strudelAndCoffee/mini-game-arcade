@@ -1,0 +1,12 @@
+body {
+  font-family: 'Courier New', Courier, monospace;
+  text-align: center;
+}
+
+h1 {
+  font-style: italic;
+}
+
+#board {
+  background-color: #111;
+}
