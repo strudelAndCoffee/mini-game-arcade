@@ -99,14 +99,17 @@ function update() {
   }
 
   // clear bullets
-  while ((bullet_arr.length > 0 && bullet_arr[0].used) || bullet_arr[0].y < 0) {
+  while (
+    (bullet_arr.length > 0 && bullet_arr[0]?.used) ||
+    bullet_arr[0]?.y < 0
+  ) {
     bullet_arr.shift()
   }
 
   // next level
   if (alien_count === 0) {
-    alien_cols += 1 //= Math.min(alien_cols + 1, COLS / 2 - 2)
-    alien_rows += 1 //= Math.min(alien_rows + 1, ROWS - 4)
+    alien_cols = Math.min(alien_cols + 1, COLS / 2 - 2)
+    alien_rows = Math.min(alien_rows + 1, ROWS - 4)
     alien_velocity_x += 0.2
 
     alien_arr = []
