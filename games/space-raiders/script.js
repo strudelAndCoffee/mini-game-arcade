@@ -10,7 +10,7 @@ let context
 const SHIP_WIDTH = TILE_SIZE * 2
 const SHIP_HEIGHT = TILE_SIZE
 const SHIP_START_X = (TILE_SIZE * COLS) / 2 - TILE_SIZE
-const SHIP_START_Y = TILE_SIZE * ROWS - TILE_SIZE * 2
+const SHIP_START_Y = TILE_SIZE * ROWS - TILE_SIZE * 2 + TILE_SIZE / 2
 const ship = {
   x: SHIP_START_X,
   y: SHIP_START_Y,
@@ -33,6 +33,9 @@ let alien_img
 // bullets
 const bullet_velocity_y = -10
 let bullet_arr = []
+//score
+let score = 0
+let game_over = false
 
 window.onload = function () {
   board = document.getElementById('board')
@@ -57,8 +60,13 @@ window.onload = function () {
 
 function update() {
   requestAnimationFrame(update)
-  context.clearRect(0, 0, board.width, board.height)
+  if (game_over) {
+    runGameOver()
+    return
+  }
 
+  // clear board
+  context.clearRect(0, 0, board.width, board.height)
   // draw ship
   context.drawImage(ship_img, ship.x, ship.y, ship.width, ship.height)
   // draw aliens
@@ -77,6 +85,8 @@ function update() {
       }
 
       context.drawImage(alien_img, alien.x, alien.y, alien.width, alien.height)
+
+      if (alien.y >= ship.y) game_over = true
     }
   }
   //draw bullets
@@ -94,6 +104,7 @@ function update() {
         bullet.used = true
         alien.alive = false
         alien_count--
+        score += 80 + 10 * alien_rows
       }
     }
   }
@@ -116,9 +127,16 @@ function update() {
     bullet_arr = []
     createAliens()
   }
+
+  // score
+  context.fillStyle = 'white'
+  context.font = '16px courier'
+  context.fillText(score, 5, 20)
 }
 
 function moveShip(e) {
+  if (game_over) return
+
   if (e.code === 'ArrowLeft' && ship.x - ship_velocity_x >= 0) {
     ship.x -= ship_velocity_x
   }
@@ -150,6 +168,8 @@ function createAliens() {
 }
 
 function shoot(e) {
+  if (game_over) return
+
   if (e.code === 'Space') {
     let bullet = {
       x: ship.x + (ship.width * 15) / 32,
@@ -170,4 +190,10 @@ function detectCollision(a, b) {
     a.y < b.y + b.height && // a's top left doesn't reach b's bottom left
     a.y + a.height > b.y // a's bottom left passes b's top lefft
   )
+}
+
+function runGameOver() {
+  context.fillStyle = 'red'
+  context.font = '32px courier'
+  context.fillText('GAME OVER', 170, 70)
 }
