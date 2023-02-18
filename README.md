@@ -19,7 +19,7 @@ Space Raiders\
 Tic-Tac-Toe\
 3D Tic-Tac-Toe \*\
 War\
-VVordle\
+VVordle
 
 \* _not from tutorial / authored by strudelAndCoffee_
 
