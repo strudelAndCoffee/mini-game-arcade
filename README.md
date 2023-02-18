@@ -21,7 +21,7 @@ Tic-Tac-Toe\
 War\
 VVordle\
 
-\* _not from tutorial/authored by strudelAndCoffee_
+\* _not from tutorial / authored by strudelAndCoffee_
 
 ## Code Sources Cited
 
