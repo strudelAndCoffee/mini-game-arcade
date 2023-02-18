@@ -84,6 +84,7 @@ function update() {
   context.clearRect(0, 0, board.width, board.height)
   // draw ship
   context.drawImage(ship_img, ship.x, ship.y, ship.width, ship.height)
+
   // draw aliens
   for (let i = 0; i < alien_arr.length; i++) {
     let alien = alien_arr[i]
@@ -105,6 +106,25 @@ function update() {
     }
   }
 
+  //draw bombs
+  for (let i = 0; i < bomb_arr.length; i++) {
+    let bomb = bomb_arr[i]
+    if (bomb.alive) {
+      bomb.y += bomb_velocity_y
+      context.fillStyle = 'yellow'
+      context.fillRect(bomb.x, bomb.y, bomb.width, bomb.height)
+
+      // bomb collisions
+      if (detectCollision(bomb, ship)) {
+        bomb.alive = false
+        score -= 10000
+        ship_lives--
+
+        if (ship_lives === 0) game_over = true
+      }
+    }
+  }
+
   //draw bullets
   for (let i = 0; i < bullet_arr.length; i++) {
     let bullet = bullet_arr[i]
@@ -113,7 +133,7 @@ function update() {
     context.fillStyle = 'white'
     context.fillRect(bullet.x, bullet.y, bullet.width, bullet.height)
 
-    // bullet collisions
+    // bullet collisions with aliens
     for (let j = 0; j < alien_arr.length; j++) {
       let alien = alien_arr[j]
       if (!bullet.used && alien.alive && detectCollision(bullet, alien)) {
@@ -123,23 +143,15 @@ function update() {
         score += 80 + 10 * alien_rows
       }
     }
-  }
 
-  //draw bombs
-  for (let i = 0; i < bomb_arr.length; i++) {
-    let bomb = bomb_arr[i]
-
-    bomb.y += bomb_velocity_y
-    context.fillStyle = 'yellow'
-    context.fillRect(bomb.x, bomb.y, bomb.width, bomb.height)
-
-    // bomb collisions
-    if (!bomb.used && detectCollision(bomb, ship)) {
-      bomb.used = true
-      score -= 10000
-      ship_lives--
-
-      if (ship_lives === 0) game_over = true
+    // bullet collisions with bombs
+    for (let k = 0; k < bomb_arr.length; k++) {
+      let bomb = bomb_arr[k]
+      if (!bullet.used && bomb.alive && detectCollision(bullet, bomb)) {
+        bullet.used = true
+        bomb.alive = false
+        score += 40 + 5 * alien_rows
+      }
     }
   }
 
@@ -152,7 +164,7 @@ function update() {
   }
 
   // clear bombs
-  while ((bomb_arr.length > 0 && bomb_arr[0]?.used) || bomb_arr[0]?.y < 0) {
+  while ((bomb_arr.length > 0 && !bomb_arr[0]?.alive) || bomb_arr[0]?.y < 0) {
     bomb_arr.shift()
   }
 
@@ -164,6 +176,7 @@ function update() {
 
     alien_arr = []
     bullet_arr = []
+    bomb_arr = []
     createAliens()
   }
 
@@ -229,7 +242,7 @@ function dropBomb(alien) {
     y: alien.y + alien.height,
     width: TILE_SIZE / 3,
     height: TILE_SIZE / 3,
-    used: false,
+    alive: true,
   }
 
   bomb_arr.push(bomb)
