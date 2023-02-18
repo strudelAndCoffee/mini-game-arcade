@@ -1,12 +1,43 @@
 body {
   font-family: 'Courier New', Courier, monospace;
   text-align: center;
+  margin: 0;
+  background-color: black;
 }
 
 h1 {
+  color: white;
   font-style: italic;
+  margin-top: 0;
 }
 
 #board {
   background-color: #111;
+}
+
+.btn-container {
+  margin-top: 15px;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  font-size: 1.05em;
+}
+
+a:visited {
+  color: white;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.play-again-btn {
+  font-size: 1.8em;
+}
+
+.hide {
+  display: none;
 }

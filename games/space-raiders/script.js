@@ -298,4 +298,7 @@ function runGameOver() {
   context.fillStyle = 'red'
   context.font = '32px courier'
   context.fillText('GAME OVER', 170, 70)
+
+  const play_again_btn = document.getElementById('playAgain')
+  play_again_btn.classList.remove('hide')
 }
