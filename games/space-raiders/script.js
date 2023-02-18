@@ -19,7 +19,7 @@ const ship = {
   height: SHIP_HEIGHT,
   width: SHIP_WIDTH,
 }
-const ship_velocity_x = TILE_SIZE
+const ship_velocity_x = 20
 let ship_lives = 3
 let ship_img
 // aliens
@@ -46,13 +46,14 @@ let alien_velocity_x = 1
 const bullet_velocity_y = -10
 let bullet_arr = []
 // bombs
-let bomb_freq = 1000
+let bomb_freq = 2000
 let alien_bomb_interval = setInterval(alienBombController, bomb_freq)
 let bomb_velocity_y = 0.7
 let bomb_arr = []
 //score
 let score = 0
 let game_over = false
+let current_level = 1
 
 window.onload = function () {
   board = document.getElementById('board')
@@ -76,6 +77,7 @@ window.onload = function () {
 function update() {
   requestAnimationFrame(update)
   if (game_over) {
+    clearInterval(alienBombController)
     runGameOver()
     return
   }
@@ -117,7 +119,7 @@ function update() {
       // bomb collisions
       if (detectCollision(bomb, ship)) {
         bomb.alive = false
-        score -= 10000
+        score -= 5000
         ship_lives--
 
         if (ship_lives === 0) game_over = true
@@ -173,17 +175,25 @@ function update() {
     alien_cols = Math.min(alien_cols + 1, COLS / 2 - 2)
     alien_rows = Math.min(alien_rows + 1, ROWS - 4)
     alien_velocity_x += 0.2
+    bomb_freq -= 25
+    current_level++
 
     alien_arr = []
     bullet_arr = []
-    bomb_arr = []
+
     createAliens()
   }
 
-  // score
+  // stats
   context.fillStyle = 'white'
   context.font = '16px courier'
-  context.fillText(score, 5, 20)
+  context.fillText(`Score: ${score}`, 5, 15)
+  context.fillStyle = 'white'
+  context.font = '16px courier'
+  context.fillText(`Lives left: ${ship_lives}`, 381, 15)
+  context.fillStyle = 'white'
+  context.font = '16px courier'
+  context.fillText(`Level: ${current_level}`, 213, 15)
 }
 
 function moveShip(e) {
@@ -240,8 +250,8 @@ function dropBomb(alien) {
   let bomb = {
     x: alien.x + (alien.width * 15) / 32,
     y: alien.y + alien.height,
-    width: TILE_SIZE / 3,
-    height: TILE_SIZE / 3,
+    width: TILE_SIZE / 2,
+    height: TILE_SIZE / 2,
     alive: true,
   }
 
@@ -285,7 +295,6 @@ function detectCollision(a, b) {
 }
 
 function runGameOver() {
-  clearInterval(alien_bomb_interval)
   context.fillStyle = 'red'
   context.font = '32px courier'
   context.fillText('GAME OVER', 170, 70)
