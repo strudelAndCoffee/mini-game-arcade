@@ -6,23 +6,22 @@ This repository is a work in progress, but I plan to deploy it once I have built
 
 ## Current Games
 
-- 2048 \*
-- Card games
-  - War \*
-- Conway's Game of Life
-- Dino Game \*
-- Danger Noodle \*
-- Flappy Pheasant \*
-- Hangman \*
-- Mine Remover \*
-- Pac-Person \*
-- Pong \*
-- Space Raiders \*
-- Tic-Tac-Toe \*
-- 3D Tic-Tac-Toe
-- VVordle \*
+2048\
+Conway's Game of Life \*\
+Dino Game\
+Danger Noodle\
+Flappy Pheasant\
+Hangman\
+Mine Remover\
+Pac-Person\
+Pong\
+Space Raiders\
+Tic-Tac-Toe\
+3D Tic-Tac-Toe \*\
+War\
+VVordle\
 
-\* _coded from tutorial_
+\* _not from tutorial/authored by strudelAndCoffee_
 
 ## Code Sources Cited
 
