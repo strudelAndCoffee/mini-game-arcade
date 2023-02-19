@@ -1,8 +1,10 @@
 # Mini Game Arcade
 
-The initial stage of this project is to hold all of the games that I have been building as practice in game development. Most, if not all of these games are coded in JavaScript, so they can be played on your web browser.
+The initial stage of this project is to hold all of the games that I have been building as practice in game development. Most, if not all of these games are coded in JavaScript, HTML, and CSS, so they can be played on your web browser, and require no dev dependencies.
 
-This repository is a work in progress, but I plan to deploy it once I have built enough games and am happy with the UX!
+Most of the games I have coded thus far have been from coding along to tutorial videos from various developers I follow on YouTube. While I am the first to admit that following a tutorial is not the same as figuring it out on your own, I am still proud of all of the hours I have put into these projects. _I never copy/paste another developer's code._ I have learned enough already to begin tackling more complex subjects like graphics on my own, so I hope to have more of my original projects to show off soon!
+
+The primary hosting site is still a work in progress, but I plan to deploy it once I have built enough games and am happy with the UX. Stay tuned...
 
 ## Current Games
 
