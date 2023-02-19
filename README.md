@@ -54,5 +54,5 @@ All original code for these versions are openly available for use, copy, and ref
 [JS Minesweeper](https://github.com/WebDevSimplified/JavaScript-Simplified-Advanced-Projects/tree/main/15-minesweeper/after)\
 [Flappy Bird Clone](https://github.com/WebDevSimplified/flappy-bird-clone)\
 [Pac-Man](https://github.com/kubowania/pac-man)\
-[Space Invaders](https://github.com/ImKennyYip/space-invaders)
+[Space Invaders](https://github.com/ImKennyYip/space-invaders)\
 [Blackjack](https://github.com/ImKennyYip/black-jack)
