@@ -7,11 +7,12 @@ This repository is a work in progress, but I plan to deploy it once I have built
 ## Current Games
 
 2048\
+Blackjack \*\*\
 Conway's Game of Life \*\
 Dino Game\
 Danger Noodle\
 Flappy Pheasant\
-Hangman\
+Hangman \*\*\
 Mine Remover\
 Pac-Person\
 Pong\
@@ -21,7 +22,8 @@ Tic-Tac-Toe\
 War\
 VVordle
 
-\* _authored by Stevie Trudell (not from tutorial)_
+\* _authored by Stevie Trudell (not from tutorial)_\
+\*\* _inspired by tutorial code, refactored by Stevie Trudell_
 
 ## Code Sources Cited
 
@@ -35,7 +37,7 @@ My code for Hangman was based on a tutorial for a TypeScript/React version of th
 
 All original code for this version of the game is openly available for use, copy, and reference by [Ania Kubow](https://github.com/kubowania), and all code is generously offered as per the tutorial videos on the Code With Ania Kubow [YouTube](https://www.youtube.com/@AniaKubow) channel.
 
-### _Space Invaders._
+### _Space Invaders, Blackjack._
 
 All original code for this version of the game is openly available for use, copy, and reference by [Kenny Yip](https://github.com/ImKennyYip), and all code, files, and images are generously offered for non-commercial as per the tutorial videos, which can be found on the Kenny Yip Coding [YouTube](https://www.youtube.com/@KennyYipCoding) channel.
 
@@ -53,3 +55,4 @@ All original code for this version of the game is openly available for use, copy
 [Flappy Bird Clone](https://github.com/WebDevSimplified/flappy-bird-clone)\
 [Pac-Man](https://github.com/kubowania/pac-man)\
 [Space Invaders](https://github.com/ImKennyYip/space-invaders)
+[Blackjack](https://github.com/ImKennyYip/black-jack)
