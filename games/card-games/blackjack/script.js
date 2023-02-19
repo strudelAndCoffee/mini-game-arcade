@@ -41,7 +41,7 @@ function startGame() {
   getCard()
 
   hitBtnEl.addEventListener('click', hit)
-  stayBtnEl.addEventListener('click', stay)
+  stayBtnEl.addEventListener('click', endGame)
 }
 
 function getCard() {
@@ -58,27 +58,7 @@ function hit() {
   if (!can_hit) return
 
   getCard()
-  if (reduceAce(your_sum, your_ace_count) > 21) can_hit = false
-}
-
-function stay() {
-  dealer_sum = reduceAce(dealer_sum, dealer_ace_count)
-  your_sum = reduceAce(your_sum, your_ace_count)
-  can_hit = false
-
-  faceDownEl.src = `../assets/images/${face_down.img}.png`
-
-  let msg = ''
-  if (your_sum > 21) msg = 'You lose'
-  else if (dealer_sum > 21) msg = 'You win'
-  else if (your_sum === dealer_sum) msg = "It's a tie"
-  else if (your_sum < dealer_sum) msg = 'You lose'
-  else if (your_sum > dealer_sum) msg = 'You win'
-
-  resultsEl.innerText = msg
-  dealerSumEl.innerText = dealer_sum
-  yourSumEl.innerText = your_sum
-  playAgainBtn.classList.remove('hide')
+  if (reduceAce(your_sum, your_ace_count) >= 21) endGame()
 }
 
 function buildDeck() {
@@ -123,4 +103,24 @@ function reduceAce(sum, ace_count) {
     ace_count--
   }
   return sum
+}
+
+function endGame() {
+  dealer_sum = reduceAce(dealer_sum, dealer_ace_count)
+  your_sum = reduceAce(your_sum, your_ace_count)
+  can_hit = false
+
+  faceDownEl.src = `../assets/images/${face_down.img}.png`
+
+  let msg = ''
+  if (your_sum > 21) msg = 'You lose.'
+  else if (dealer_sum > 21) msg = 'You win!'
+  else if (your_sum === dealer_sum) msg = "It's a tie."
+  else if (your_sum < dealer_sum) msg = 'You lose.'
+  else if (your_sum > dealer_sum) msg = 'You win!'
+
+  resultsEl.innerText = msg
+  dealerSumEl.innerText = dealer_sum
+  yourSumEl.innerText = your_sum
+  playAgainBtn.classList.remove('hide')
 }

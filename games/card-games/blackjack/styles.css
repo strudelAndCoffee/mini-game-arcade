@@ -3,6 +3,11 @@ body {
   text-align: center;
 }
 
+a {
+  text-decoration: none;
+  color: black;
+}
+
 a:visited {
   color: black;
 }
@@ -19,15 +24,13 @@ a:visited {
   font-size: 20px;
 }
 
+.results,
 .play-again {
-  text-decoration: none;
-  font-size: 20px;
-  font-weight: bold;
-  color: black;
+  font-size: 28px;
 }
 
-.play-again:hover {
-  text-decoration: underline;
+.play-again {
+  padding: 4px 15px;
 }
 
 .hide {
