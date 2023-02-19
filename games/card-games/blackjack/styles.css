@@ -24,13 +24,15 @@ a:visited {
   font-size: 20px;
 }
 
-.results,
-.play-again {
+.results {
   font-size: 28px;
+  font-weight: bold;
 }
 
 .play-again {
+  font-size: 22px;
   padding: 4px 15px;
+  margin-top: 5px;
 }
 
 .hide {
