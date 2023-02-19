@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" type="module" defer></script>
+  <title>Blackjack</title>
+</head>
+
+<body>
+  <h2>
+    Dealer: <span id="dealerSum"></span>
+  </h2>
+  <div id="dealerCards" class="card">
+    <img id="faceDown" src="../assets/images/BACK.png" />
+  </div>
+
+
+  <h2>
+    You: <span id="yourSum"></span>
+  </h2>
+  <div id="yourCards" class="card"></div>
+
+  <br />
+  <button id="hit" class="btn">Hit</button>
+  <button id="stay" class="btn">Stay</button>
+  <p class="results">
+    <span id="results"></span>
+    <br />
+    <button id="playAgain" class="play-again hide">
+      <a href="/games/card-games/blackjack/">Play again?</a>
+    </button>
+  </p>
+  <br />
+</body>
+
+</html>
