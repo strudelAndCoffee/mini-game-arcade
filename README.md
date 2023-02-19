@@ -17,7 +17,7 @@ Flappy Pheasant\
 Hangman \*\*\
 Mine Remover\
 Pac-Person\
-Pong\
+Plonc\
 Space Raiders\
 Tic-Tac-Toe\
 3D Tic-Tac-Toe \*\
