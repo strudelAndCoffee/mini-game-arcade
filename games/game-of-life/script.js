@@ -6,7 +6,7 @@ const startGameBtn = document.getElementById('start')
 const resetBtn = document.getElementById('reset')
 
 const side = 50
-const generation_rate = 100
+const generation_rate = 50
 const dimension = side * side
 const CONFIG = []
 let iterations = 1000

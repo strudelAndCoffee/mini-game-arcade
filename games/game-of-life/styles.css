@@ -47,14 +47,14 @@ body {
   transition: background-image ease;
 }
 .btn:hover {
-  background-image: linear-gradient(to bottom right, var(--med), var(--med));
-}
-.btn.selected {
   background-image: linear-gradient(
     to bottom right,
-    var(--light),
-    var(--light)
+    var(--med),
+    var(--tile-btn)
   );
+}
+.btn.selected {
+  background-image: linear-gradient(to bottom right, var(--med), var(--light));
 }
 
 .cell {
@@ -63,5 +63,6 @@ body {
 }
 
 .cell.alive {
-  background-color: var(--light);
+  /* background-color: var(--light); */
+  background-image: linear-gradient(to bottom right, var(--light), var(--med));
 }
