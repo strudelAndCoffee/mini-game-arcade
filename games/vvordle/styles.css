@@ -221,3 +221,20 @@ body {
 .alert.hide {
   opacity: 0;
 }
+
+/* STATS SECTION */
+
+.stats-block {
+  position: absolute;
+  width: auto;
+  height: auto;
+  font-family: monospace;
+  color: white;
+  margin: 2px;
+}
+
+.stats-header {
+  font-weight: bold;
+  font-style: italic;
+  padding: 5px 5px 5px 10px;
+}
