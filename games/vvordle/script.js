@@ -24,18 +24,22 @@ const dayOffset = msOffset / 1000 / 60 / 60 / 24
 const targetWord = targetWords[Math.floor(dayOffset)]
 
 const letterCount = {}
+const letterGuessed = {}
 
 let targetLettersArray = targetWord.split('')
 for (let i = 0; i < 5; i++) {
   let currentLetter = targetLettersArray.pop()
-  if (letterCount[currentLetter] >= 1) letterCount[currentLetter]++
-  else letterCount[currentLetter] = 1
+
+  if (letterCount[currentLetter] >= 1) {
+    letterCount[currentLetter]++
+  } else {
+    letterCount[currentLetter] = 1
+    letterGuessed[currentLetter] = 0
+  }
 }
 
-console.log(letterCount)
-
 let game_points = 0
-let green_letters = 0
+let green_letters = 5
 let yellow_letters = 0
 let valid_guesses = 0
 let unbound_guesses = 0
@@ -137,8 +141,12 @@ function flipTile(tile, index, array, guess) {
       if (targetWord[index] === letter) {
         tile.dataset.state = 'correct'
         key.classList.add('correct')
-        letterCount[letter]--
-      } else if (targetWord.includes(letter) && letterCount[letter] >= 1) {
+
+        if (letterGuessed[letter] < letterCount[letter]) letterGuessed[letter]++
+      } else if (
+        targetWord.includes(letter) &&
+        letterGuessed[letter] < letterCount[letter]
+      ) {
         tile.dataset.state = 'wrong-location'
         key.classList.add('wrong-location')
       } else {
